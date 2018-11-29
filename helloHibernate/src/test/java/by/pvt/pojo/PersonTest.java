@@ -14,6 +14,7 @@ import org.junit.Test;
 import java.io.FileOutputStream;
 import java.io.Serializable;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -26,7 +27,7 @@ public class PersonTest {
     private void initPerson(Person person) {
         person.setAge(35);
         person.setDateOfBirth(new GregorianCalendar(1990, 1, 1).getTime());
-        person.setId(101);
+        person.setId("101");
         person.setName("Natalia");
         person.setName("Ivanova");
     }
@@ -96,5 +97,17 @@ public class PersonTest {
             if (tx != null) tx.rollback();
             e.printStackTrace();
         }
+
+        Session session2 = sessionFactory.openSession();
+        session2.beginTransaction();
+        List<Person> list = session2.createQuery("from Person ").list();
+
+        assertTrue(list.size() > 0);
+
+        for (Person p : list) {
+            System.out.println("Person: " + p);
+        }
+        session2.getTransaction().commit();
+        session2.close();
     }
 }

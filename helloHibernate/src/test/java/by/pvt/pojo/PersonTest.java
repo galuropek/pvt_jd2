@@ -29,7 +29,7 @@ public class PersonTest {
         person.setDateOfBirth(new GregorianCalendar(1990, 1, 1).getTime());
         person.setId("101");
         person.setName("Natalia");
-        person.setName("Ivanova");
+        person.setSecondName("Ivanova");
     }
 
     @Before

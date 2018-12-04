@@ -9,22 +9,31 @@ import static org.junit.Assert.*;
 
 public class DaoImplTest {
 
+    DaoImpl<Person> dao;
+
     @Before
     public void setUp() throws Exception {
+        dao = new DaoImpl<>(Person.class);
     }
 
     @After
     public void tearDown() throws Exception {
+        dao = null;
     }
 
     @Test
     public void saveOrUpdate() {
-        DaoImpl<Person> dao = new DaoImpl<>();
+
         assertNull(dao.saveOrUpdate(null));
+
         assertNotNull(dao.saveOrUpdate(new Person()));
+
         Person person = new Person();
+        assertNull(person.getId());
         Person person2 = dao.saveOrUpdate(person);
         assertEquals(person, person2);
+        assertNotNull(person.getId());
+
         person2.setSecondName("Petrova");
         Person person3 = dao.saveOrUpdate(person2);
         assertEquals("Petrova", person3.getSecondName());

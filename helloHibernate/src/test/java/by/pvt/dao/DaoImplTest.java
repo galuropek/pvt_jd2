@@ -52,10 +52,21 @@ public class DaoImplTest {
 
         Person person = dao.saveOrUpdate(new Person());
         assertNotNull(dao.load(person.getId()));
+
+        Person person2 = dao.load(person.getId());
+        assertEquals(person, person2);
     }
 
     @Test
     public void find() {
 
+        assertNull(dao.find(null));
+        assertNull(dao.find(101));
+
+        Person person = dao.saveOrUpdate(new Person());
+        assertNotNull(dao.load(person.getId()));
+
+        Person person2 = dao.load(person.getId());
+        assertEquals(person, person2);
     }
 }

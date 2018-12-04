@@ -42,7 +42,7 @@ public class DaoImpl<T> {
             throw new IllegalArgumentException("Persistant " +
                     "instance id must not be null");
         Session session = HibernateUtil.getInstance().getSession();
-        Transaction transaction = session.getTransaction();
+        Transaction transaction = session.beginTransaction();
         T t = null;
         try {
             t = (T) session.load(getPersistentClass(), id);
@@ -60,7 +60,7 @@ public class DaoImpl<T> {
     @Nullable
     public T find(Serializable id) {
         Session session = HibernateUtil.getInstance().getSession();
-        Transaction transaction = session.getTransaction();
+        Transaction transaction = session.beginTransaction();
         T t = null;
         try {
             t = (T) session.get(getPersistentClass(), id);

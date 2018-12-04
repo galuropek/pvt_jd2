@@ -5,6 +5,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.Serializable;
+
 import static org.junit.Assert.*;
 
 public class DaoImplTest {
@@ -42,6 +44,14 @@ public class DaoImplTest {
     @Test
     public void load() {
 
+        try {
+            dao.load(null);
+        } catch (Exception e) {
+            assertEquals(e.getClass(), IllegalArgumentException.class);
+        }
+
+        Person person = dao.saveOrUpdate(new Person());
+        assertNotNull(dao.load(person.getId()));
     }
 
     @Test

@@ -18,6 +18,12 @@ public class Car implements Serializable {
     @Column
     private String Model;
 
+    public Car(Integer id, String mark, String model) {
+        this.id = id;
+        Mark = mark;
+        Model = model;
+    }
+
     public Integer getId() {
         return id;
     }

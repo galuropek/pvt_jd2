@@ -1,6 +1,7 @@
 package by.pvt.dao;
 
 import by.pvt.pojo.Person;
+import by.pvt.util.HibernateUtil;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -68,5 +69,40 @@ public class DaoImplTest {
 
         Person person2 = dao.load(person.getId());
         assertEquals(person, person2);
+    }
+
+    @Test
+    public void updateName() {
+
+        Person person = new Person();
+        person.setName("Vasya");
+        person.setSecondName("Ivanov");
+        person = dao.saveOrUpdate(person);
+        assertNotNull(person.getId());
+        dao.updateName(person.getId(), "Petya");
+//        person = dao.load(person.getId());
+        assertEquals(person.getName(), "Petya");
+
+        //TODO: check why after rollback Persin POJO has been disconnected from session and lost state
+        try {
+            dao.updateName(null, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            assertTrue(e instanceof IllegalArgumentException);
+            HibernateUtil.getInstance().getSession().getTransaction().rollback();
+        }
+    }
+
+    @Test
+    public void delete(){
+
+        Person person = new Person();
+        Serializable id = dao.saveOrUpdate(person).getId();
+        assertNotNull(id);
+
+        dao.delete(id);
+
+        assertNull(dao.find(id));
+        System.out.println(person);
     }
 }

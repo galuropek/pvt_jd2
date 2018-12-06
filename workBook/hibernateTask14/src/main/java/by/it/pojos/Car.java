@@ -1,11 +1,20 @@
 package by.it.pojos;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.io.Serializable;
 
+//@NoArgsConstructor
+//@AllArgsConstructor
+@Data
+@EqualsAndHashCode
 @Entity
 public class Car implements Serializable {
 
@@ -14,14 +23,14 @@ public class Car implements Serializable {
     @GeneratedValue
     private Integer id;
     @Column
-    private String Mark;
+    private String mark;
     @Column
-    private String Model;
+    private String model;
 
     public Car(Integer id, String mark, String model) {
         this.id = id;
-        Mark = mark;
-        Model = model;
+        this.mark = mark;
+        this.model = model;
     }
 
     public Integer getId() {
@@ -29,11 +38,11 @@ public class Car implements Serializable {
     }
 
     public String getMark() {
-        return Mark;
+        return mark;
     }
 
     public String getModel() {
-        return Model;
+        return model;
     }
 
     public void setId(Integer id) {
@@ -41,11 +50,11 @@ public class Car implements Serializable {
     }
 
     public void setMark(String mark) {
-        Mark = mark;
+        mark = mark;
     }
 
     public void setModel(String model) {
-        Model = model;
+        model = model;
     }
 
 }

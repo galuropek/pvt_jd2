@@ -17,6 +17,8 @@ public class Person implements Serializable {
     private int age;
     private Date dateOfBirth;
 
+    private Address address;
+
     public String getId() {
         return id;
     }
@@ -57,6 +59,14 @@ public class Person implements Serializable {
         this.dateOfBirth = dateOfBirth;
     }
 
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
     @Override
     public int hashCode() {
         return new HashCodeBuilder()
@@ -65,6 +75,7 @@ public class Person implements Serializable {
                 .append(secondName)
                 .append(age)
                 .append(dateOfBirth)
+                .append(address)
                 .toHashCode();
     }
 
@@ -79,6 +90,7 @@ public class Person implements Serializable {
                 .append(this.secondName, that.secondName)
                 .append(this.age, that.age)
                 .append(this.dateOfBirth, that.dateOfBirth)
+                .append(this.address, that.address)
                 .isEquals();
     }
 
@@ -90,6 +102,7 @@ public class Person implements Serializable {
                 .append("secondName", secondName)
                 .append("age", age)
                 .append("dateOfBirth", dateOfBirth)
+                .append("address", address)
                 .toString();
     }
 }

@@ -6,6 +6,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class Person implements Serializable {
 
@@ -18,6 +19,16 @@ public class Person implements Serializable {
     private Date dateOfBirth;
 
     private Address address;
+
+    private List<String> titles;
+
+    public List<String> getTitles() {
+        return titles;
+    }
+
+    public void setTitles(List<String> titles) {
+        this.titles = titles;
+    }
 
     public String getId() {
         return id;

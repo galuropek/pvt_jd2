@@ -18,11 +18,7 @@ public class DaoImplTest {
     @Before
     public void setUp() throws Exception {
         dao = new DaoImpl<>(Person.class);
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        dao = null;
+        dao.isTestInsrance = true;
     }
 
     @Test
@@ -124,5 +120,11 @@ public class DaoImplTest {
 
         System.out.println(person);
 
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        dao.isTestInsrance = false;
+        dao = null;
     }
 }

@@ -20,5 +20,17 @@
             <property name="houseNumber"/>
             <property name="officeNumber"/>
         </component>
+
+        <joined-subclass name="Branch">
+            <key column="id"/>
+            <property name="branchDirector"/>
+            <property name="branchName"/>
+        </joined-subclass>
+        <joined-subclass name="Headquarter">
+            <key column="id"/>
+            <property name="directorName"/>
+            <property name="bankAccount"/>
+        </joined-subclass>
+
     </class>
 </hibernate-mapping>

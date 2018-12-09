@@ -30,6 +30,7 @@ public class PersonTest {
         person.setId("101");
         person.setName("Natalia");
         person.setSecondName("Ivanova");
+        person.setTitles(List.of("Mrs", "Frau", "Dr."));
     }
 
     @Before

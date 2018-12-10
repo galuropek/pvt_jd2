@@ -9,8 +9,8 @@ public class HibernateUtil {
     //каждый экземлпяр threadLocal созается для одного потока
     // (поток может обратиться только к одному threadLocal и больше ни к какому другоу)
     // важно помнить!!!
-    ThreadLocal<Session> threadLocal = new ThreadLocal<>();
-    ThreadLocal<Session> testThreadLocal = new ThreadLocal<>();
+    private ThreadLocal<Session> threadLocal = new ThreadLocal<>();
+    private ThreadLocal<Session> testThreadLocal = new ThreadLocal<>();
 
     private SessionFactory sessionFactory;
     private SessionFactory testSessionFactory;
@@ -23,7 +23,7 @@ public class HibernateUtil {
                 .buildSessionFactory();
 
         testSessionFactory = new Configuration()
-                .configure()
+                .configure("testHibernate.cfg.xml")
                 .buildSessionFactory();
     }
 

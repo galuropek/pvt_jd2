@@ -1,5 +1,6 @@
 package by.pvt.pojo;
 
+import by.pvt.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -22,7 +23,16 @@ public class PersonTest {
 
     Person person1 = new Person();
     Person person2 = new Person();
-    SessionFactory sessionFactory;
+    //    SessionFactory sessionFactory;
+    Session session;
+
+    @Before
+    public void setUp() throws Exception {
+        session = HibernateUtil.getInstance().getTestSession();
+        initPerson(person1);
+        initPerson(person2);
+//        setUpHibernate();
+    }
 
     private void initPerson(Person person) {
         person.setAge(35);
@@ -33,14 +43,9 @@ public class PersonTest {
         person.setTitles(List.of("Mrs", "Frau", "Dr."));
     }
 
-    @Before
-    public void setUp() throws Exception {
-        initPerson(person1);
-        initPerson(person2);
-        setUpHibernate();
-    }
 
-    private void setUpHibernate() {
+
+/*    private void setUpHibernate() {
         StandardServiceRegistry standardServiceRegistry =
                 new StandardServiceRegistryBuilder()
                         .configure()
@@ -50,13 +55,7 @@ public class PersonTest {
                 .buildMetadata()
                 .buildSessionFactory();
     }
-
-    @After
-    public void tearDown() throws Exception {
-        // close session and kill by garbage collector
-//        sessionFactory.close();
-//        sessionFactory = null;
-    }
+*/
 
     @Test
     public void testHashCode() {
@@ -81,9 +80,8 @@ public class PersonTest {
     @Test
     public void testHibernate() {
 
-        Transaction tx = null;
-        try (Session session = sessionFactory.openSession()) {
-            tx = session.beginTransaction();
+        try {
+            session.beginTransaction();
 
             Serializable id1 = session.save(person1);
             Serializable id2 = session.save(person2);
@@ -93,22 +91,34 @@ public class PersonTest {
             assertNotNull(id1);
             assertNotNull(id2);
 
-            tx.commit();
+            session.getTransaction().commit();
         } catch (Exception e) {
-            if (tx != null) tx.rollback();
             e.printStackTrace();
+            session.getTransaction().rollback();
         }
 
-        Session session2 = sessionFactory.openSession();
-        session2.beginTransaction();
-        List<Person> list = session2.createQuery("from Person ").list();
+        Session session2 = HibernateUtil.getInstance().getTestSession();
 
-        assertTrue(list.size() > 0);
-
-        for (Person p : list) {
-            System.out.println("Person: " + p);
+        try {
+            session2.beginTransaction();
+            List<Person> list = session2.createQuery("from Person").list();
+            assertTrue(list.size() > 0);
+            for (Person p : list) {
+                System.out.println("Person: " + p);
+                assertNotNull(p);
+            }
+            session2.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            session2.getTransaction().rollback();
         }
-        session2.getTransaction().commit();
-        session2.close();
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        if (session != null && session.isOpen()) {
+            session.close();
+            session = null;
+        }
     }
 }

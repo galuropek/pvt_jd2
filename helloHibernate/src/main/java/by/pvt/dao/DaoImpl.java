@@ -14,7 +14,7 @@ public class DaoImpl<T> {
 
     private Class<T> persistentClass;
 
-    public static boolean isTestInsrance;
+    public static boolean isTestInstance;
 
 
     public DaoImpl(Class<T> type) {
@@ -26,7 +26,7 @@ public class DaoImpl<T> {
     }
 
     private Session getSession(){
-        if (isTestInsrance)
+        if (isTestInstance)
             return HibernateUtil.getInstance().getTestSession();
         else
             return HibernateUtil.getInstance().getSession();
@@ -38,7 +38,7 @@ public class DaoImpl<T> {
         try {
             transaction = session.beginTransaction();
             session.saveOrUpdate(t);
-            session.getTransaction().commit();
+            transaction.commit();
         } catch (Exception e) {
             e.printStackTrace();
             if (transaction != null) {
@@ -62,6 +62,7 @@ public class DaoImpl<T> {
         } catch (Exception e) {
             e.printStackTrace();
             transaction.rollback();
+            session.close();
         }
         if (t == null)
             throw new IllegalStateException("Persistance " +
@@ -80,6 +81,7 @@ public class DaoImpl<T> {
         } catch (Exception e) {
             e.printStackTrace();
             transaction.rollback();
+            session.close();
         }
         return t;
     }
@@ -96,13 +98,14 @@ public class DaoImpl<T> {
         } catch (HibernateException e) {
             e.printStackTrace();
             transaction.rollback();
+            session.close();
         }
     }
 
     public void delete(Serializable id) {
+
         Session session = getSession();
         Transaction transaction = session.beginTransaction();
-
         try {
             T t = session.get(getPersistentClass(), id);
             session.delete(t);
@@ -110,6 +113,7 @@ public class DaoImpl<T> {
         } catch (Exception e) {
             e.printStackTrace();
             transaction.rollback();
+            session.close();
         }
     }
 }

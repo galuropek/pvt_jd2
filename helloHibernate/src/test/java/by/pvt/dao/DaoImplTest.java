@@ -18,7 +18,7 @@ public class DaoImplTest {
     @Before
     public void setUp() throws Exception {
         dao = new DaoImpl<>(Person.class);
-        dao.isTestInsrance = true;
+//        DaoImpl.isTestInstance = true;
     }
 
     @Test
@@ -37,6 +37,7 @@ public class DaoImplTest {
         person2.setSecondName("Petrova");
         Person person3 = dao.saveOrUpdate(person2);
         assertEquals("Petrova", person3.getSecondName());
+
     }
 
     @Test
@@ -53,6 +54,7 @@ public class DaoImplTest {
 
         Person person2 = dao.load(person.getId());
         assertEquals(person, person2);
+
     }
 
     @Test
@@ -66,6 +68,7 @@ public class DaoImplTest {
 
         Person person2 = dao.load(person.getId());
         assertEquals(person, person2);
+
     }
 
     @Test
@@ -80,7 +83,6 @@ public class DaoImplTest {
 //        person = dao.load(person.getId());
         assertEquals(person.getName(), "Petya");
 
-        //TODO: check why after rollback Persin POJO has been disconnected from session and lost state
         try {
             dao.updateName(null, null);
         } catch (Exception e) {
@@ -88,6 +90,7 @@ public class DaoImplTest {
             assertTrue(e instanceof IllegalArgumentException);
             HibernateUtil.getInstance().getSession().getTransaction().rollback();
         }
+
     }
 
     @Test
@@ -101,6 +104,7 @@ public class DaoImplTest {
 
         assertNull(dao.find(id));
         System.out.println(person);
+
     }
 
     @Test
@@ -124,7 +128,8 @@ public class DaoImplTest {
 
     @After
     public void tearDown() throws Exception {
-        dao.isTestInsrance = false;
+        dao.isTestInstance = false;
         dao = null;
+
     }
 }

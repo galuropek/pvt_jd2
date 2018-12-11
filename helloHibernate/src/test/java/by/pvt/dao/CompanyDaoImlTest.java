@@ -14,7 +14,7 @@ public class CompanyDaoImlTest {
     @Before
     public void setUp() {
         companyDao = new DaoImpl<>(Company.class);
-        companyDao.isTestInsrance = true;
+        companyDao.isTestInstance = true;
     }
 
     @Test
@@ -56,7 +56,7 @@ public class CompanyDaoImlTest {
     }
 
     public void tearDown() {
-        companyDao.isTestInsrance = false;
+        companyDao.isTestInstance = false;
         companyDao = null;
     }
 }

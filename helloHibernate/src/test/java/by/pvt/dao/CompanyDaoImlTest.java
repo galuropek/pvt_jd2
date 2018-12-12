@@ -2,6 +2,7 @@ package by.pvt.dao;
 
 import by.pvt.pojo.Address;
 import by.pvt.pojo.Company;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -55,6 +56,7 @@ public class CompanyDaoImlTest {
         assertNull(companyDao.find(1L));
     }
 
+    @After
     public void tearDown() {
         companyDao.isTestInstance = false;
         companyDao = null;

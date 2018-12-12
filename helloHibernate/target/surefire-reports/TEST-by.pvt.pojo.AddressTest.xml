@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="1" failures="0" name="by.pvt.pojo.AddressTest" time="0" errors="0" skipped="0">
+<testsuite tests="1" failures="0" name="by.pvt.pojo.AddressTest" time="0.004" errors="0" skipped="0">
   <properties>
-    <property name="idea.version" value="2018.2.2"/>
+    <property name="idea.version" value="2018.3"/>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="java.vm.version" value="9.0.4+11"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-9.0.4\bin"/>
@@ -46,7 +46,7 @@
     <property name="java.class.path" value="D:\Soft\apache-maven-3.6.0\boot\plexus-classworlds-2.5.2.jar"/>
     <property name="java.vm.specification.version" value="9"/>
     <property name="sun.arch.data.model" value="64"/>
-    <property name="sun.java.command" value="org.codehaus.classworlds.Launcher -Didea.version=2018.2.2 -s D:\Soft\apache-maven-3.6.0\conf\settings.xml clean install"/>
+    <property name="sun.java.command" value="org.codehaus.classworlds.Launcher -Didea.version=2018.3 -s D:\Soft\apache-maven-3.6.0\conf\settings.xml clean install"/>
     <property name="java.home" value="C:\Program Files\Java\jdk-9.0.4"/>
     <property name="user.language" value="en"/>
     <property name="java.specification.vendor" value="Oracle Corporation"/>
@@ -62,5 +62,5 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="by.pvt.pojo.AddressTest" name="getId" time="0"/>
+  <testcase classname="by.pvt.pojo.AddressTest" name="getId" time="0.004"/>
 </testsuite>

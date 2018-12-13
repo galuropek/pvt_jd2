@@ -12,6 +12,8 @@ import javax.persistence.Persistence;
 
 public class HibernateUtil {
 
+    private static HibernateUtil hibernateUtil;
+
     private SessionFactory sessionFactory;
 
     private HibernateUtil() {
@@ -23,6 +25,12 @@ public class HibernateUtil {
         } catch (Throwable e) {
             throw new ExceptionInInitializerError(e);
         }
+    }
+
+    public static HibernateUtil getInstance() {
+        if (hibernateUtil == null)
+            hibernateUtil = new HibernateUtil();
+        return hibernateUtil;
     }
 
     public Session getSession() {

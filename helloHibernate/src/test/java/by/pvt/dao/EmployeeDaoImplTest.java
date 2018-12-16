@@ -43,7 +43,7 @@ public class EmployeeDaoImplTest {
 
         Department department1 = new Department();
         department1.setDepartmentName("Department1");
-        department1.setEmployees(Set.of(employee1, employee2));
+        department1.setEmployees(Set.of(employee2, employee1));
         employee1.setDepartment(department1);
         employee2.setDepartment(department1);
 
@@ -56,6 +56,7 @@ public class EmployeeDaoImplTest {
         Address address1 = new Address("Minsk", "Lenina", "1", 101);
         address1.setOfficeNumber("101");
         employeeDetails1.setAddress(address1);
+        employeeDetails1.setPosition("employee1");
         employeeDetails1.setPrivateNr("e1");
         employeeDetails1.setEmployee(employee1);
         employee1.setEmployeeDetails(employeeDetails1);
@@ -82,6 +83,13 @@ public class EmployeeDaoImplTest {
         assertTrue(employee2.getId() == 2);
         assertTrue(employee3.getId() == 3);
     }
+
+//    @Test
+//    public void step3_deleteEmployee() {
+//        employeeDao.delete(1L);
+//        employeeDao.delete(2L);
+//        employeeDao.delete(3L);
+//    }
 
     @After
     public void tearDown() {

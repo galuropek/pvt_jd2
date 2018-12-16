@@ -16,7 +16,6 @@ public class DaoImpl<T> {
 
     public static boolean isTestInstance;
 
-
     public DaoImpl(Class<T> type) {
         this.persistentClass = type;
     }

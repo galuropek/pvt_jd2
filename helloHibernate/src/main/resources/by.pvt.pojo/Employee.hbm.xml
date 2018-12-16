@@ -14,6 +14,11 @@
         <!--иначе hibernate сам создает колонку с названиме из name-->
         <many-to-one name="department" class="Department" cascade="save-update"/>
         <one-to-one name="employeeDetails" class="EmployeeDetails" cascade="all"/>
+
+        <set name="meetings" table="employee_meeting">
+            <key column="employee"/>
+            <many-to-many class="Meeting" column="meeting"/>
+        </set>
     </class>
 
 </hibernate-mapping>

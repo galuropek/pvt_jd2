@@ -28,10 +28,14 @@ public class PersonTest {
 
     @Before
     public void setUp() throws Exception {
-        session = HibernateUtil.getInstance().getTestSession();
+        session = HibernateUtil.getInstance().getSession();
         initPerson(person1);
         initPerson(person2);
+        Address address = initAddres("1");
+        person1.setAddress(address);
+        person2.setAddress(address);
 //        setUpHibernate();
+
     }
 
     private void initPerson(Person person) {
@@ -43,7 +47,13 @@ public class PersonTest {
         person.setTitles(List.of("Mrs", "Frau", "Dr."));
     }
 
-
+    private Address initAddres(String postfix) {
+        Address address = new Address("Minsk" + postfix,
+                "Stroiteley" + postfix,
+                postfix,
+                Integer.valueOf(postfix));
+        return address;
+    }
 
 /*    private void setUpHibernate() {
         StandardServiceRegistry standardServiceRegistry =
@@ -97,7 +107,7 @@ public class PersonTest {
             session.getTransaction().rollback();
         }
 
-        Session session2 = HibernateUtil.getInstance().getTestSession();
+        Session session2 = HibernateUtil.getInstance().getSession();
 
         try {
             session2.beginTransaction();

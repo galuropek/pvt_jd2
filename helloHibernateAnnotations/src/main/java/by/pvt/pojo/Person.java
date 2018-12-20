@@ -3,23 +3,41 @@ package by.pvt.pojo;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+@Entity
 public class Person implements Serializable {
 
     private static final long serialVersionUID = -1781191857792849355L;
 
+    @Id
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(strategy = "uuid", name="system-uuid")
     private String id;
+
+    @Column
     private String name;
+
+    @Column
     private String secondName;
+
+    @Column
     private int age;
+
+    @Column
     private Date dateOfBirth;
 
+    @JoinColumn
+    @OneToOne(cascade = CascadeType.ALL)
     private Address address;
 
+    @Column
+    @ElementCollection
     private List<String> titles;
 
     public List<String> getTitles() {

@@ -10,18 +10,25 @@ public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     @Column
     private String country;
+
     @Column
     private String city;
+
     @Column
     private String street;
+
     @Column
     private Integer zip;
+
     @Column
     private String houseNumber;
+
     @Column
     private int appartmentNumber;
+
     @Column
     private String officeNumber;
 

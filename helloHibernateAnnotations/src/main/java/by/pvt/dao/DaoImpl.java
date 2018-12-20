@@ -14,7 +14,7 @@ public class DaoImpl<T> {
 
     private Class<T> persistentClass;
 
-    public static boolean isTestInstance;
+//    public static boolean isTestInstance;
 
     public DaoImpl(Class<T> type) {
         this.persistentClass = type;
@@ -24,11 +24,11 @@ public class DaoImpl<T> {
         return persistentClass;
     }
 
-    private Session getSession(){
-        if (isTestInstance)
-            return HibernateUtil.getInstance().getTestSession();
-        else
-            return HibernateUtil.getInstance().getSession();
+    private Session getSession() {
+//        if (isTestInstance)
+//            return HibernateUtil.getInstance().getTestSession();
+//        else
+        return HibernateUtil.getInstance().getSession();
     }
 
     public T saveOrUpdate(T t) {

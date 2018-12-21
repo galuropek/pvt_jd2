@@ -4,10 +4,13 @@ import by.pvt.pojo.Address;
 import by.pvt.pojo.Company;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import static org.junit.Assert.*;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class CompanyDaoImlTest {
 
     DaoImpl<Company> companyDao;
@@ -15,11 +18,11 @@ public class CompanyDaoImlTest {
     @Before
     public void setUp() {
         companyDao = new DaoImpl<>(Company.class);
-        companyDao.isTestInstance = true;
+//        companyDao.isTestInstance = true;
     }
 
     @Test
-    public void saveOrUpdate() {
+    public void step1_saveOrUpdate() {
         Company company = new Company();
         company.setCompanyName("Romashka");
         company.setSiteUrl("www.romashka.by");
@@ -41,7 +44,7 @@ public class CompanyDaoImlTest {
     }
 
     @Test
-    public void updateAddress() {
+    public void step2_updateAddress() {
         Company company = companyDao.load(1L);
         company.getHomeAddress().setCity("Vitebsk");
         companyDao.saveOrUpdate(company);
@@ -50,7 +53,7 @@ public class CompanyDaoImlTest {
     }
 
     @Test
-    public void delete(){
+    public void step3_delete() {
         companyDao.delete(companyDao.load(1L).getId());
 
         assertNull(companyDao.find(1L));
@@ -58,7 +61,7 @@ public class CompanyDaoImlTest {
 
     @After
     public void tearDown() {
-        companyDao.isTestInstance = false;
+//        companyDao.isTestInstance = false;
         companyDao = null;
     }
 }

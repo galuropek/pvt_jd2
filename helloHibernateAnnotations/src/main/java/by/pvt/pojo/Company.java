@@ -1,13 +1,28 @@
 package by.pvt.pojo;
 
+import javax.persistence.*;
+
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Company {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private long id;
 
+    @Column
     private String companyName;
+
+    @Column
     private String siteUrl;
 
+    @JoinColumn
+    @OneToOne(cascade = CascadeType.ALL)
     private Address homeAddress;
+
+    @JoinColumn
+    @OneToOne(cascade = CascadeType.ALL)
     private Address legalAddress;
 
     public long getId() {

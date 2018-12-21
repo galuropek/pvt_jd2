@@ -25,7 +25,7 @@ public class UserTest {
     public void createIstance() {
 
         User user = new User();
-        user.setUserLogin("qwerty");
+        user.setUserLogin("User_test");
         user.setUserEmail("qwerty@mail.com");
 
         UserDetails userDetails = new UserDetails();

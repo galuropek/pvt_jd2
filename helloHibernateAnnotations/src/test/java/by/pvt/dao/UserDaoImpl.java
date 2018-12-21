@@ -37,7 +37,11 @@ public class UserDaoImpl {
         user.setUserDetails(userDetails);
         userDetails.setUser(user);
 
+        User user2 = new User();
+        user2.setUserLogin("test_user2");
+
         userDao.saveOrUpdate(user);
+        userDao.saveOrUpdate(user2);
 
         assertTrue(user.getId() > 0);
     }
@@ -80,7 +84,7 @@ public class UserDaoImpl {
 
     @After
     public void tearDown() {
-        userDao.isTestInstance = false;
+//        userDao.isTestInstance = false;
         userDao = null;
     }
 }

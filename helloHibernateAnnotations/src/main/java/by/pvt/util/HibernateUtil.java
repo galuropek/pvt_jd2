@@ -10,10 +10,10 @@ public class HibernateUtil {
     // (поток может обратиться только к одному threadLocal и больше ни к какому другоу)
     // важно помнить!!!
     private ThreadLocal<Session> threadLocal = new ThreadLocal<>();
-    private ThreadLocal<Session> testThreadLocal = new ThreadLocal<>();
+//    private ThreadLocal<Session> testThreadLocal = new ThreadLocal<>();
 
     private SessionFactory sessionFactory;
-    private SessionFactory testSessionFactory;
+//    private SessionFactory testSessionFactory;
 
     private static HibernateUtil hibernateUtil;
 
@@ -22,9 +22,9 @@ public class HibernateUtil {
                 .configure()
                 .buildSessionFactory();
 
-        testSessionFactory = new Configuration()
-                .configure("testHibernate.cfg.xml")
-                .buildSessionFactory();
+//        testSessionFactory = new Configuration()
+//                .configure("testHibernate.cfg.xml")
+//                .buildSessionFactory();
     }
 
     public static HibernateUtil getInstance() {
@@ -46,12 +46,12 @@ public class HibernateUtil {
         return session;
     }
 
-    public Session getTestSession() {
-        Session session = testThreadLocal.get();
-        if (session == null || !session.isOpen()) {
-            session = testSessionFactory.openSession();
-            testThreadLocal.set(session);
-        }
-        return session;
-    }
+//    public Session getTestSession() {
+//        Session session = testThreadLocal.get();
+//        if (session == null || !session.isOpen()) {
+//            session = testSessionFactory.openSession();
+//            testThreadLocal.set(session);
+//        }
+//        return session;
+//    }
 }

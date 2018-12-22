@@ -51,6 +51,7 @@ public class EmployeeTest {
         Address address1 = new Address("Minsk", "Lenina", "1", 101);
         address1.setOfficeNumber("101");
         employeeDetails1.setAddress(address1);
+        employeeDetails1.setPosition("employee1");
         employeeDetails1.setPrivateNr("e1");
         employeeDetails1.setEmployee(employee1);
         employee1.setEmployeeDetails(employeeDetails1);

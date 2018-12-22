@@ -11,6 +11,8 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
 public class Person implements Serializable {
 
     private static final long serialVersionUID = -1781191857792849355L;

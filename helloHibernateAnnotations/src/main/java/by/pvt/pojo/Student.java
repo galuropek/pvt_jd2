@@ -1,9 +1,18 @@
 package by.pvt.pojo;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+
+@Entity
 public class Student extends Person{
 
+    @Column
     private String university;
+
+    @Column
     private String faculty;
+
+    @Column
     private short courseYear;
 
     public String getUniversity() {

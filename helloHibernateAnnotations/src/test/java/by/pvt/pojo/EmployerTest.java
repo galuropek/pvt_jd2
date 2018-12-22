@@ -25,6 +25,8 @@ public class EmployerTest {
 
         session.beginTransaction();
         session.saveOrUpdate(employer);
+        session.getTransaction().commit();
+        assertNotNull(employer);
     }
 
     @After

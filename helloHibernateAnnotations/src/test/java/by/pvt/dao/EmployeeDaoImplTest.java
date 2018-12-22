@@ -84,6 +84,7 @@ public class EmployeeDaoImplTest {
         assertTrue(employee3.getId() == 3);
     }
 
+
 //    @Test
 //    public void step3_deleteEmployee() {
 //        employeeDao.delete(1L);
@@ -93,7 +94,7 @@ public class EmployeeDaoImplTest {
 
     @After
     public void tearDown() {
-        employeeDao.isTestInstance = false;
+//        employeeDao.isTestInstance = false;
         employeeDao = null;
     }
 

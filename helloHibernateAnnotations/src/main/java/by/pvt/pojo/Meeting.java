@@ -1,18 +1,31 @@
 package by.pvt.pojo;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Set;
 
+@Entity
 public class Meeting {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @Column
     private String subject;
+
+    @OneToOne
     private Employee organizer;
+
+    @Column
     private Date dateTime;
+
+    @Column
     private Status status;
 
-    private Set attendees;
+    @ManyToMany(mappedBy = "meetings")
+    private Set<Employee> attendees;
 
     public Date getDateTime() {
         return dateTime;

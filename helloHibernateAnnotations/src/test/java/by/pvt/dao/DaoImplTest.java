@@ -128,7 +128,7 @@ public class DaoImplTest {
 
     @After
     public void tearDown() throws Exception {
-        dao.isTestInstance = false;
+//        dao.isTestInstance = false;
         dao = null;
 
     }

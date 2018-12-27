@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class AgreementRefTest {
+public class CharacteristicTest {
 
     Session session;
 
@@ -18,25 +18,26 @@ public class AgreementRefTest {
     }
 
     @Test
-    public void createInstance() {
-        AgreementRef agreementRef = initAgreementRef("0");
+    public void createInstance(){
+        Characteristic characteristic = new Characteristic();
+        characteristic.setName("Name");
+        characteristic.setValue("Value");
+
+        Characteristic characteristic2 = new Characteristic();
+        characteristic2.setName("Name2");
+        characteristic2.setValue("Value");
+
         try {
             session.beginTransaction();
-            session.saveOrUpdate(agreementRef);
+            session.saveOrUpdate(characteristic);
+            session.saveOrUpdate(characteristic2);
             session.getTransaction().commit();
-            assertNotNull(agreementRef.getId());
+            assertNotNull(characteristic.getName());
         } catch (Exception e) {
             e.printStackTrace();
             session.getTransaction().rollback();
         }
-        System.out.println(agreementRef);
-    }
 
-    private AgreementRef initAgreementRef(String prefix) {
-        AgreementRef agreementRef = new AgreementRef();
-        agreementRef.setName("Name" + prefix);
-        agreementRef.setHref("Href" + prefix);
-        return agreementRef;
     }
 
     @After

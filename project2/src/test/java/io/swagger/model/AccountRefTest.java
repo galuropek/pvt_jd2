@@ -32,10 +32,10 @@ public class AccountRefTest {
         System.out.println(accountRef);
     }
 
-    public AccountRef initAccountRef(String prefix) {
+    private AccountRef initAccountRef(String prefix) {
         AccountRef accountRef = new AccountRef();
         accountRef.setName("TestName" + prefix);
-        accountRef.setDescription("TestDiscription" + prefix);
+        accountRef.setDescription("TestDescription" + prefix);
         accountRef.setHref("TestHref" + prefix);
         return accountRef;
     }

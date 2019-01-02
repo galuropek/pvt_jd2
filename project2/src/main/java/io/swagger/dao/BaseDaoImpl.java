@@ -1,28 +1,23 @@
 package io.swagger.dao;
 
-import io.swagger.model.Customer;
-import io.swagger.model.PartyRef;
-import org.springframework.stereotype.Repository;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-@Repository
-public class BaseDaoImpl<T> {
+public abstract class BaseDaoImpl<T> {
 
-    public List<T> find() {
-        return List.of(testData("1"), testData("2"), testData("3"));
-    }
+    @Autowired
+    SessionFactory sessionFactory;
 
-    public boolean add(List<T> items) {
+    public abstract List<T> find();
+
+    public boolean add(List<T> items){
         return false;
     }
 
-    private T testData(String prefix) {
-        Customer customer = new Customer();
-
-        customer.setId(prefix);
-        customer.setName("Name" + prefix);
-        customer.setStatus("Status" + prefix);
-        return (T) customer;
+    Session openSession(){
+        return sessionFactory.getCurrentSession();
     }
 }

@@ -8,6 +8,11 @@ import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.MediumCharacteristic;
 import io.swagger.model.TimePeriod;
 import org.springframework.validation.annotation.Validated;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -18,17 +23,22 @@ import javax.validation.constraints.*;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2018-12-22T19:45:02.882+03:00")
 
+@Entity
 public class ContactMedium   {
   @JsonProperty("preferred")
+  @Column
   private Boolean preferred = null;
 
   @JsonProperty("type")
+  @Column
   private String type = null;
 
   @JsonProperty("validFor")
+  @OneToOne(cascade = CascadeType.ALL)
   private TimePeriod validFor = null;
 
   @JsonProperty("characteristic")
+  @OneToOne(cascade = CascadeType.ALL)
   private MediumCharacteristic characteristic = null;
 
   public ContactMedium preferred(Boolean preferred) {

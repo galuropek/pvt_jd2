@@ -23,7 +23,7 @@ import javax.validation.constraints.*;
 @Entity
 public class Characteristic   {
   @JsonProperty("name")
-  @Id
+  @Column
   private String name = null;
 
   @JsonProperty("value")

@@ -81,27 +81,27 @@ public class Customer {
 
     @JsonProperty("contactMedium")
     @Valid
-    @OneToOne(cascade = CascadeType.ALL)
+    @Embedded
     private List<ContactMedium> contactMedium = null;
 
     @JsonProperty("characteristic")
     @Valid
-    @OneToOne(cascade = CascadeType.ALL)
+    @Embedded
     private List<Characteristic> characteristic = null;
 
     @JsonProperty("creditProfile")
     @Valid
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.REFRESH)
     private List<CreditProfile> creditProfile = null;
 
     @JsonProperty("agreement")
     @Valid
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<AgreementRef> agreement = null;
 
     @JsonProperty("relatedParty")
     @Valid
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.REFRESH)
     private List<RelatedPartyRef> relatedParty = null;
 
     public Customer href(String href) {

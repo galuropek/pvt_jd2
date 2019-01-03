@@ -20,7 +20,7 @@ import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2018-12-22T19:45:02.882+03:00")
 
 @Entity
-public class MediumCharacteristic   {
+public class MediumCharacteristic extends BasePojo{
   @JsonProperty("city")
   @Column
   private String city = null;

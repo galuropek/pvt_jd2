@@ -2,6 +2,7 @@
 <!DOCTYPE hibernate-configuration PUBLIC
         "-//Hibernate/Hibernate Configuration DTD//EN"
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
 <hibernate-configuration>
     <session-factory>
 
@@ -17,7 +18,12 @@
         <property name="hibernate.hbm2ddl.auto">create-drop</property>
 
         <!-- mapping -->
+        <mapping class="io.swagger.model.Customer"/>
+        <mapping class="io.swagger.model.TimePeriod"/>
 
+        <!--<mapping class="io.swagger.model.AccountRef"/>-->
+        <!--<mapping class="io.swagger.model.AgreementRef"/>-->
+        <!--<mapping class="io.swagger.model.Characteristic"/>-->
 
     </session-factory>
 </hibernate-configuration>

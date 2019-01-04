@@ -1,6 +1,10 @@
 package by.pvt.bean;
 
-public class PersonImpl {
+import org.springframework.beans.factory.BeanNameAware;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
+
+public class PersonImpl implements InitializingBean, BeanNameAware, DisposableBean {
 
     private String name;
 
@@ -40,5 +44,21 @@ public class PersonImpl {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    void init() {
+        System.out.println("Init bean " + getClass().getName());
+    }
+
+    public void destroy() {
+        System.out.println("Destroy bean " + getClass().getName());
+    }
+
+    public void afterPropertiesSet() throws Exception {
+        System.out.println("Call after properties set...");
+    }
+
+    public void setBeanName(String s) {
+        System.out.println("Call set bean name=" + s);
     }
 }

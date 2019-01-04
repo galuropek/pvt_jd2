@@ -2,15 +2,46 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:aop="http://www.springframework.org/schema/aop"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd">
 
-    <bean name="person" class="by.pvt.bean.PersonImpl">
+    <!-- scope = "singleton" - default -->
+    <bean name="person" class="by.pvt.bean.PersonImpl" scope="singleton"
+          init-method="init" destroy-method="destroy">
         <property name="address" ref="address"/>
         <property name="name" value="Semen Semenovich"/>
         <property name="secondName" value="Gorbunkov"/>
     </bean>
-    <bean name="address" class="by.pvt.bean.AddressImpl"/>
-    <bean name="personNotifier" class="by.pvt.bean.PersonNotifier"/>
+    <bean name="address" class="by.pvt.bean.AddressImpl">
+        <property name="flats">
+            <list>
+                <value>1</value>
+                <value>2</value>
+                <value>3</value>
+            </list>
+        </property>
+        <property name="coordinats">
+            <map>
+                <entry key="23.213" value="23.2321"/>
+                <entry key="34.23423" value="56.5456"/>
+            </map>
+        </property>
+    </bean>
+    <bean name="personNotifier" class="by.pvt.bean.PersonNotifier">
+        <!--<constructor-arg value="Notify message"/>-->
+        <constructor-arg>
+            <null/>
+        </constructor-arg>
+        <constructor-arg value="1,2,3,4,5"/>
+            <!--<list>-->
+                <!--<value>1</value>-->
+                <!--<value>2</value>-->
+                <!--<value>3</value>-->
+            <!--</list>-->
+        <!--</constructor-arg>-->
+    </bean>
     <aop:config>
 
         <aop:aspect ref="personNotifier">

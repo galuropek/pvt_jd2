@@ -2,6 +2,7 @@ package io.swagger.service;
 
 import io.swagger.dao.AlarmDaoImpl;
 import io.swagger.model.Alarm;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -50,6 +51,23 @@ public class AlarmServiceImpl extends BaseServiceImpl {
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public Alarm retrieve(Serializable id) {
-        return alarmDao.get(id);
+        Alarm alarm = alarmDao.get(id);
+        log.info("delete: " + alarm);
+        return alarm;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void delete(Serializable id) {
+        Alarm alarm = alarmDao.get(id);
+        log.info("delete: " + alarm);
+        alarmDao.delete(alarm);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void update(Serializable id, Alarm updateAlarm) {
+        Alarm alarm = alarmDao.get(id);
+        BeanUtils.copyProperties(updateAlarm, alarm);
+        log.info("update(): " + alarm);
+        alarmDao.save(alarm);
     }
 }

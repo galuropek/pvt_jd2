@@ -33,4 +33,14 @@ public class AlarmDaoImpl extends BaseDaoImpl{
         log.info("Call get()");
         return openSession().find(tClass, id);
     }
+
+    @Override
+    public void delete(Object item) {
+        super.delete(item);
+    }
+
+    @Override
+    public void update(Object item) {
+        super.update(item);
+    }
 }

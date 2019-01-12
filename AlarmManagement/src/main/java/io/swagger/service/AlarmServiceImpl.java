@@ -2,6 +2,7 @@ package io.swagger.service;
 
 import io.swagger.dao.AlarmDaoImpl;
 import io.swagger.model.Alarm;
+import io.swagger.util.Validator;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,8 @@ public class AlarmServiceImpl extends BaseServiceImpl {
     private static Logger log = Logger.getLogger(AlarmServiceImpl.class.getName());
 
     private final AlarmDaoImpl alarmDao;
+
+    private Validator validator;
 
     @Autowired
     public AlarmServiceImpl(AlarmDaoImpl alarmDao) {
@@ -66,6 +69,11 @@ public class AlarmServiceImpl extends BaseServiceImpl {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void update(Serializable id, Alarm updateAlarm) {
         Alarm alarm = alarmDao.get(id);
+        boolean res =
+                validator.validate(
+                        "alarm.ackUserId",
+                        updateAlarm.getAckUserId());
+
         BeanUtils.copyProperties(updateAlarm, alarm);
         log.info("update(): " + alarm);
         alarmDao.save(alarm);

@@ -1,0 +1,4 @@
+io\swagger\dao\AlarmDaoImplTest.class
+io\swagger\configuration\HibernateXMLConfTest.class
+io\swagger\configuration\AlarmInit.class
+io\swagger\service\AlarmServiceImplTest.class

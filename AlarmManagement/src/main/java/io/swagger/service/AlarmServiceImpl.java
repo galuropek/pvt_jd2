@@ -67,14 +67,7 @@ public class AlarmServiceImpl extends BaseServiceImpl {
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void update(Serializable id, Alarm updateAlarm) {
-        Alarm alarm = alarmDao.get(id);
-        boolean res =
-                validator.validate(
-                        "alarm.ackUserId",
-                        updateAlarm.getAckUserId());
-
-        BeanUtils.copyProperties(updateAlarm, alarm);
+    public void update(Alarm alarm) {
         log.info("update(): " + alarm);
         alarmDao.save(alarm);
     }

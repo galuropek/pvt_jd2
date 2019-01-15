@@ -157,10 +157,11 @@ public class AlarmApiController implements AlarmApi {
         alarmUpdate.setAlarmedObjectType((String) properties.copy(
                 alarmOriginal.getAlarmedObjectType(),
                 alarmRequest.getAlarmedObjectType()));
+
         //object
-        alarmUpdate.setAlarmedObject((AlarmedObject) properties.copy(
-                alarmOriginal.getAlarmedObject(),
-                alarmRequest.getAlarmedObject()));
+//----------------------> for test set old List. Must edit later on update data.
+        alarmUpdate.setAlarmedObject(
+                alarmOriginal.getAlarmedObject());
 
         alarmUpdate.setSourceSystemId((String) properties.copy(
                 alarmOriginal.getSourceSystemId(),
@@ -247,9 +248,9 @@ public class AlarmApiController implements AlarmApi {
         alarmUpdate.setParentAlarm(parentAlarmOriginal);
 
         //object
-        alarmUpdate.setCrossedThresholdInformation((CrossedThresholdInformation) properties.copy(
-                alarmOriginal.getCrossedThresholdInformation(),
-                alarmRequest.getCrossedThresholdInformation()));
+//----------------------> for test set old List. Must edit later on update data.
+        alarmUpdate.setCrossedThresholdInformation(
+                alarmOriginal.getCrossedThresholdInformation());
 
         //object
 //----------------------> for test set old List. Must edit later on update data.

@@ -69,6 +69,6 @@ public class AlarmServiceImpl extends BaseServiceImpl {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void update(Alarm alarm) {
         log.info("update(): " + alarm);
-        alarmDao.save(alarm);
+        alarmDao.update(alarm);
     }
 }

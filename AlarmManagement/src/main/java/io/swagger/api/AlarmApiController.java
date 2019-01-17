@@ -3,8 +3,10 @@ package io.swagger.api;
 import io.swagger.model.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
+import io.swagger.service.AffectedServiceServiceImpl;
 import io.swagger.service.AlarmServiceImpl;
-import io.swagger.util.Properties;
+import io.swagger.service.AlarmedObjectServiceImpl;
+import io.swagger.util.PropertiesUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -36,6 +38,12 @@ public class AlarmApiController implements AlarmApi {
 
     @Autowired
     private AlarmServiceImpl alarmService;
+
+    @Autowired
+    private AlarmedObjectServiceImpl alarmedObjectService;
+
+    @Autowired
+    private AffectedServiceServiceImpl affectedServiceService;
 
     @org.springframework.beans.factory.annotation.Autowired
     public AlarmApiController(ObjectMapper objectMapper, HttpServletRequest request) {
@@ -93,7 +101,7 @@ public class AlarmApiController implements AlarmApi {
     //edited - ALARM GET method - worked
     public ResponseEntity<Alarm> alarmGet(@ApiParam(value = "", required = true) @PathVariable("alarmId") String alarmId, @ApiParam(value = "") @Valid @RequestParam(value = "fields", required = false) String fields) {
         String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
+//        if (accept != null && accept.contains("application/json")) {
             try {
                 Serializable id = Long.valueOf(alarmId);
                 return new ResponseEntity<Alarm>(alarmService.retrieve(id), HttpStatus.OK);
@@ -102,9 +110,9 @@ public class AlarmApiController implements AlarmApi {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<Alarm>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
-        }
+//        }
 
-        return new ResponseEntity<Alarm>(HttpStatus.NOT_IMPLEMENTED);
+//        return new ResponseEntity<Alarm>(HttpStatus.NOT_IMPLEMENTED);
     }
 
     //in processing...
@@ -113,7 +121,7 @@ public class AlarmApiController implements AlarmApi {
         if (accept != null && accept.contains("application/json")) {
             try {
                 Alarm alarmOriginal = alarmService.retrieve(Long.valueOf(alarmId));
-                Alarm alarmUpdate = copyProperties(alarmOriginal, alarm);
+                Alarm alarmUpdate = copyAlarmedObjectProperties(alarmOriginal, alarm);
                 alarmService.update(alarmUpdate);
                 return new ResponseEntity<Alarm>(
                         alarmService.retrieve(alarmUpdate.getId()),
@@ -127,98 +135,102 @@ public class AlarmApiController implements AlarmApi {
         return new ResponseEntity<Alarm>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    private Alarm copyProperties(Alarm alarmOriginal, Alarm alarmRequest) {
-
-        Properties properties = new Properties();
+    private Alarm copyAlarmedObjectProperties(Alarm alarmOriginal, Alarm alarmRequest) {
 
         Alarm alarmUpdate = new Alarm();
         alarmUpdate.setId(alarmOriginal.getId());
-        alarmUpdate.setHref((String) properties.copy(
+        alarmUpdate.setHref((String) PropertiesUtils.copyStringProperties(
                 alarmOriginal.getHref(),
                 alarmRequest.getHref()));
-        alarmUpdate.setType((String) properties.copy(
+        alarmUpdate.setType((String) PropertiesUtils.copyStringProperties(
                 alarmOriginal.getType(),
                 alarmRequest.getType()));
-        alarmUpdate.setBaseType((String) properties.copy(
+        alarmUpdate.setBaseType((String) PropertiesUtils.copyStringProperties(
                 alarmOriginal.getBaseType(),
                 alarmRequest.getBaseType()));
-        alarmUpdate.setSchemaLocation((String) properties.copy(
+        alarmUpdate.setSchemaLocation((String) PropertiesUtils.copyStringProperties(
                 alarmOriginal.getSchemaLocation(),
                 alarmRequest.getSchemaLocation()));
-        alarmUpdate.setExternalAlarmId((String) properties.copy(
+        alarmUpdate.setExternalAlarmId((String) PropertiesUtils.copyStringProperties(
                 alarmOriginal.getExternalAlarmId(),
                 alarmRequest.getExternalAlarmId()));
-        alarmUpdate.setAlarmType((String) properties.copy(
+        alarmUpdate.setAlarmType((String) PropertiesUtils.copyStringProperties(
                 alarmOriginal.getAlarmType(),
                 alarmRequest.getAlarmType()));
-        alarmUpdate.setPerceivedSeverity((String) properties.copy(
+        alarmUpdate.setPerceivedSeverity((String) PropertiesUtils.copyStringProperties(
                 alarmOriginal.getPerceivedSeverity(),
                 alarmRequest.getPerceivedSeverity()));
-        alarmUpdate.setAlarmedObjectType((String) properties.copy(
+        alarmUpdate.setAlarmedObjectType((String) PropertiesUtils.copyStringProperties(
                 alarmOriginal.getAlarmedObjectType(),
                 alarmRequest.getAlarmedObjectType()));
 
-        //object
-//----------------------> for test set old List. Must edit later on update data.
-        alarmUpdate.setAlarmedObject(
-                alarmOriginal.getAlarmedObject());
+        //ready object
+        @Valid AlarmedObject alarmedObjectOriginal = alarmOriginal.getAlarmedObject();
+        @Valid AlarmedObject alarmedObjectRequest = alarmRequest.getAlarmedObject();
+        if (copyAlarmedObjectProperties(alarmedObjectOriginal, alarmedObjectRequest) != null) {
+            alarmUpdate.setAlarmedObject(
+                    copyAlarmedObjectProperties(
+                            alarmedObjectOriginal,
+                            alarmedObjectRequest));
+        }
 
-        alarmUpdate.setSourceSystemId((String) properties.copy(
+
+        alarmUpdate.setSourceSystemId((String) PropertiesUtils.copyStringProperties(
                 alarmOriginal.getSourceSystemId(),
                 alarmRequest.getSourceSystemId()));
-        alarmUpdate.setAlarmDetails((String) properties.copy(
+        alarmUpdate.setAlarmDetails((String) PropertiesUtils.copyStringProperties(
                 alarmOriginal.getAlarmDetails(),
                 alarmRequest.getAlarmDetails()));
-        alarmUpdate.setState((String) properties.copy(
+        alarmUpdate.setState((String) PropertiesUtils.copyStringProperties(
                 alarmOriginal.getState(),
                 alarmRequest.getState()));
 
-        //object
-        alarmUpdate.setAlarmRaisedTime((OffsetDateTime) properties.copy(
+        //OffsetDateTime
+        alarmUpdate.setAlarmRaisedTime((OffsetDateTime) PropertiesUtils.copyOffsetDateTimeProperties(
                 alarmOriginal.getAlarmRaisedTime(),
                 alarmRequest.getAlarmRaisedTime()));
 
-        //object
-        alarmUpdate.setAlarmChangedTime((OffsetDateTime) properties.copy(
+        //OffsetDateTime
+        alarmUpdate.setAlarmChangedTime((OffsetDateTime) PropertiesUtils.copyOffsetDateTimeProperties(
                 alarmOriginal.getAlarmChangedTime(),
                 alarmRequest.getAlarmChangedTime()));
 
-        //object
-        alarmUpdate.setAlarmClearedTime((OffsetDateTime) properties.copy(
+        //OffsetDateTime
+        alarmUpdate.setAlarmClearedTime((OffsetDateTime) PropertiesUtils.copyOffsetDateTimeProperties(
                 alarmOriginal.getAlarmClearedTime(),
                 alarmRequest.getAlarmClearedTime()));
 
-        alarmUpdate.setProposedRepairedActions((String) properties.copy(
+        alarmUpdate.setProposedRepairedActions((String) PropertiesUtils.copyStringProperties(
                 alarmOriginal.getProposedRepairedActions(),
                 alarmRequest.getProposedRepairedActions()));
 
-        //object
-        alarmUpdate.setAlarmReportingTime((OffsetDateTime) properties.copy(
+        //OffsetDateTime
+        alarmUpdate.setAlarmReportingTime((OffsetDateTime) PropertiesUtils.copyOffsetDateTimeProperties(
                 alarmOriginal.getAlarmReportingTime(),
                 alarmRequest.getAlarmReportingTime()));
 
-        alarmUpdate.setAckState((String) properties.copy(
+        alarmUpdate.setAckState((String) PropertiesUtils.copyStringProperties(
                 alarmOriginal.getAckState(),
                 alarmRequest.getAckState()));
-        alarmUpdate.setAckUserId((String) properties.copy(
+        alarmUpdate.setAckUserId((String) PropertiesUtils.copyStringProperties(
                 alarmOriginal.getAckUserId(),
                 alarmRequest.getAckUserId()));
-        alarmUpdate.setAckSystemId((String) properties.copy(
+        alarmUpdate.setAckSystemId((String) PropertiesUtils.copyStringProperties(
                 alarmOriginal.getAckSystemId(),
                 alarmRequest.getAckSystemId()));
-        alarmUpdate.setClearUserId((String) properties.copy(
+        alarmUpdate.setClearUserId((String) PropertiesUtils.copyStringProperties(
                 alarmOriginal.getClearUserId(),
                 alarmRequest.getClearUserId()));
-        alarmUpdate.setClearSystemId((String) properties.copy(
+        alarmUpdate.setClearSystemId((String) PropertiesUtils.copyStringProperties(
                 alarmOriginal.getClearSystemId(),
                 alarmRequest.getClearSystemId()));
-        alarmUpdate.setPlannedOutageIndicator((String) properties.copy(
+        alarmUpdate.setPlannedOutageIndicator((String) PropertiesUtils.copyStringProperties(
                 alarmOriginal.getPlannedOutageIndicator(),
                 alarmRequest.getPlannedOutageIndicator()));
-        alarmUpdate.setAlarmEscelation((String) properties.copy(
+        alarmUpdate.setAlarmEscelation((String) PropertiesUtils.copyStringProperties(
                 alarmOriginal.getAlarmEscelation(),
                 alarmRequest.getAlarmEscelation()));
-        alarmUpdate.setServiceAffecting((String) properties.copy(
+        alarmUpdate.setServiceAffecting((String) PropertiesUtils.copyStringProperties(
                 alarmOriginal.getServiceAffecting(),
                 alarmRequest.getServiceAffecting()));
 
@@ -227,11 +239,13 @@ public class AlarmApiController implements AlarmApi {
         @Valid List<AffectedService> affectedServiceOriginal = alarmOriginal.getAffectedService();
         @Valid List<AffectedService> affectedServiceRequest = alarmRequest.getAffectedService();
         alarmUpdate.setAffectedService(affectedServiceOriginal);
-//        alarmUpdate.setAffectedService((AffectedService)properties.copy(
+//        alarmUpdate.setAffectedService(copyAffectedServiceProperties(affectedServiceOriginal,
+//                affectedServiceRequest));
+//        alarmUpdate.setAffectedService((AffectedService)properties.copyStringProperties(
 //                alarmOriginal.getAffectedService(),
 //                alarmRequest.getAffectedService()));
 
-        alarmUpdate.setIsRootCause((String) properties.copy(
+        alarmUpdate.setIsRootCause((String) PropertiesUtils.copyStringProperties(
                 alarmOriginal.getIsRootCause(),
                 alarmRequest.getIsRootCause()));
 
@@ -259,16 +273,52 @@ public class AlarmApiController implements AlarmApi {
         alarmUpdate.setComments(commentsOriginal);
 
 
-//        alarmUpdate.set((String)properties.copy(
+//        alarmUpdate.set((String)properties.copyStringProperties(
 //                alarmOriginal.get,
 //                alarmRequest.get));
         return alarmUpdate;
     }
 
+    private AlarmedObject copyAlarmedObjectProperties(AlarmedObject original, AlarmedObject request) {
+        if (original != null && request != null) {
+            AlarmedObject alarmedObject = new AlarmedObject();
+            alarmedObject.setId((String) PropertiesUtils.copyStringProperties(
+                    original.getId(),
+                    request.getId()));
+            alarmedObject.setHref((String) PropertiesUtils.copyStringProperties(
+                    original.getHref(),
+                    request.getHref()));
+            return alarmedObject;
+        } else if (original == null && request != null) {
+            alarmedObjectService.save(request);
+            return request;
+        } else if (original != null && request == null) {
+            return original;
+        } else
+            return null;
+    }
+
+    private List<AffectedService> copyAffectedServiceProperties(
+            List<AffectedService> original,
+            List<AffectedService> request) {
+        if (original != null && request != null) {
+            request.forEach(item ->
+                    original.add(item));
+            return original;
+        } else if (original == null && request != null) {
+            List<AffectedService> update =
+                    affectedServiceService.update(request);
+            return update;
+        } else if (original != null && request == null) {
+            return original;
+        } else
+            return null;
+    }
+
     //edited - List<ALARM> GET method - worked
     public ResponseEntity<List<Alarm>> alarmsFind(@ApiParam(value = "") @Valid @RequestParam(value = "fields", required = false) String fields) {
         String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
+//        if (accept != null && accept.contains("application/json")) {
             try {
                 List<Alarm> list = alarmService.list();
                 return new ResponseEntity<List<Alarm>>(list,
@@ -278,8 +328,8 @@ public class AlarmApiController implements AlarmApi {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<List<Alarm>>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
-        }
+//        }
 
-        return new ResponseEntity<List<Alarm>>(HttpStatus.NOT_IMPLEMENTED);
+//        return new ResponseEntity<List<Alarm>>(HttpStatus.NOT_IMPLEMENTED);
     }
 }

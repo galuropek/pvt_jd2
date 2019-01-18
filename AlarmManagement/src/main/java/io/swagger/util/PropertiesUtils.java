@@ -4,11 +4,210 @@ import io.swagger.model.*;
 import org.springframework.beans.BeanUtils;
 import org.threeten.bp.OffsetDateTime;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PropertiesUtils {
+
+    public static Alarm clearProperties(Alarm original, Alarm edited) {
+
+        Alarm clear = new Alarm();
+        clear.setHref(clearStringProperties(
+                original.getHref(),
+                edited.getHref()
+        ));
+        clear.setType(clearStringProperties(
+                original.getType(),
+                edited.getType()
+        ));
+        clear.setBaseType(clearStringProperties(
+                original.getBaseType(),
+                edited.getBaseType()
+        ));
+        clear.setSchemaLocation(clearStringProperties(
+                original.getSchemaLocation(),
+                edited.getSchemaLocation()
+        ));
+        clear.setExternalAlarmId(clearStringProperties(
+                original.getExternalAlarmId(),
+                edited.getExternalAlarmId()
+        ));
+        clear.setAlarmType(clearStringProperties(
+                original.getAlarmType(),
+                edited.getAlarmType()
+        ));
+        clear.setPerceivedSeverity(clearStringProperties(
+                original.getPerceivedSeverity(),
+                edited.getPerceivedSeverity()
+        ));
+        clear.setAlarmedObjectType(clearStringProperties(
+                original.getAlarmedObjectType(),
+                edited.getAlarmedObjectType()
+        ));
+
+        //object -----------------------------------------------------
+        clear.setAlarmedObject(clearAlarmedObject(
+                original.getAlarmedObject(),
+                edited.getAlarmedObject()
+        ));
+        //------------------------------------------------------------
+
+        clear.setSourceSystemId(clearStringProperties(
+                original.getSourceSystemId(),
+                edited.getSourceSystemId()
+        ));
+        clear.setAlarmDetails(clearStringProperties(
+                original.getAlarmDetails(),
+                edited.getAlarmDetails()
+        ));
+        clear.setState(clearStringProperties(
+                original.getState(),
+                edited.getState()
+        ));
+
+        //OffsetDateTime
+        clear.setAlarmRaisedTime(clearOffsetDateTime(
+                original.getAlarmRaisedTime(),
+                edited.getAlarmRaisedTime()
+        ));
+
+        //OffsetDateTime
+        clear.setAlarmChangedTime(clearOffsetDateTime(
+                original.getAlarmChangedTime(),
+                edited.getAlarmChangedTime()
+        ));
+
+        //OffsetDateTime
+        clear.setAlarmClearedTime(clearOffsetDateTime(
+                original.getAlarmClearedTime(),
+                edited.getAlarmClearedTime()
+        ));
+
+        clear.setProposedRepairedActions(clearStringProperties(
+                original.getProposedRepairedActions(),
+                edited.getProposedRepairedActions()
+        ));
+
+        //OffsetDateTime
+        clear.setAlarmReportingTime(clearOffsetDateTime(
+                original.getAlarmReportingTime(),
+                edited.getAlarmReportingTime()
+        ));
+
+        clear.setAckState(clearStringProperties(
+                original.getAckState(),
+                edited.getAckState()));
+        clear.setAckUserId(clearStringProperties(
+                original.getAckUserId(),
+                edited.getAckUserId()));
+        clear.setAckSystemId(clearStringProperties(
+                original.getAckSystemId(),
+                edited.getAckSystemId()));
+        clear.setClearUserId(clearStringProperties(
+                original.getClearUserId(),
+                edited.getClearUserId()));
+        clear.setClearSystemId(clearStringProperties(
+                original.getClearSystemId(),
+                edited.getClearSystemId()));
+        clear.setPlannedOutageIndicator(clearStringProperties(
+                original.getPlannedOutageIndicator(),
+                edited.getPlannedOutageIndicator()));
+        clear.setAlarmEscelation(clearStringProperties(
+                original.getAlarmEscelation(),
+                edited.getAlarmEscelation()));
+        clear.setServiceAffecting(clearStringProperties(
+                original.getServiceAffecting(),
+                edited.getServiceAffecting()));
+
+        //list objects -------------------------------------------------------------
+        clear.setAffectedService((List<AffectedService>) clearList(
+                original.getAffectedService(),
+                edited.getAffectedService()
+        ));
+        //--------------------------------------------------------------------------
+
+        clear.setIsRootCause(clearStringProperties(
+                original.getIsRootCause(),
+                edited.getIsRootCause()));
+
+        //list objects -------------------------------------------------------------
+
+        clear.setCorrelatedAlarm((List<CorrelatedAlarm>) clearList(
+                original.getCorrelatedAlarm(),
+                edited.getCorrelatedAlarm()
+        ));
+
+        //--------------------------------------------------------------------------
+
+        //list objects -------------------------------------------------------------
+        clear.setParentAlarm((List<ParentAlarm>) clearList(
+                original.getParentAlarm(),
+                edited.getParentAlarm()
+        ));
+        //--------------------------------------------------------------------------
+
+        //object -----------------------------------------------------
+        clear.setCrossedThresholdInformation(clearCrossedThresholdInformation(
+                original.getCrossedThresholdInformation(),
+                edited.getCrossedThresholdInformation()
+        ));
+        //------------------------------------------------------------
+
+        //list objects -------------------------------------------------------------
+        clear.setComments((List<Comments>) clearList(
+                original.getComments(),
+                edited.getComments()
+        ));
+        //--------------------------------------------------------------------------
+
+        return clear;
+
+    }
+
+    private static CrossedThresholdInformation clearCrossedThresholdInformation(
+            CrossedThresholdInformation original,
+            CrossedThresholdInformation edited) {
+        if (edited != null) {
+            return null;
+        } else
+            return original;
+    }
+
+    private static List<?> clearList(
+            List<?> original,
+            List<?> edited) {
+        if (edited != null) {
+            return null;
+        } else
+            return original;
+    }
+
+    private static OffsetDateTime clearOffsetDateTime(
+            OffsetDateTime original,
+            OffsetDateTime edited) {
+        if (edited != null) {
+            return null;
+        } else
+            return original;
+    }
+
+    private static AlarmedObject clearAlarmedObject(
+            AlarmedObject original,
+            AlarmedObject edited) {
+        if (edited != null) {
+            return null;
+        } else
+            return original;
+    }
+
+    private static String clearStringProperties(
+            String original,
+            String edited) {
+        if (edited != null) {
+            return null;
+        } else
+            return original;
+    }
 
     public static Alarm updateProperties(Alarm original, Alarm edited) {
 
@@ -39,7 +238,7 @@ public class PropertiesUtils {
                 edited.getAlarmedObjectType()));
 
         //object -----------------------------------------------------
-        AlarmedObject alarmedObject = processAlarmedObject(
+        AlarmedObject alarmedObject = updateAlarmedObject(
                 original.getAlarmedObject(),
                 edited.getAlarmedObject());
         if (alarmedObject != null) {
@@ -283,7 +482,7 @@ public class PropertiesUtils {
             return null;
     }
 
-    private static AlarmedObject processAlarmedObject(
+    private static AlarmedObject updateAlarmedObject(
             AlarmedObject original,
             AlarmedObject edited) {
         AlarmedObject alarmedObject = new AlarmedObject();
@@ -370,14 +569,14 @@ public class PropertiesUtils {
         });
     }
 
-    public static String copyStringProperties(String oldValue, String newValue) {
+    private static String copyStringProperties(String oldValue, String newValue) {
         if (newValue != null && !newValue.equals("string"))
             return newValue;
         else
             return oldValue;
     }
 
-    public static OffsetDateTime copyOffsetDateTimeProperties(OffsetDateTime oldValue, OffsetDateTime newValue) {
+    private static OffsetDateTime copyOffsetDateTimeProperties(OffsetDateTime oldValue, OffsetDateTime newValue) {
         if (newValue != null)
             return newValue;
         else

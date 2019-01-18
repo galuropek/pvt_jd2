@@ -5,8 +5,10 @@ import io.swagger.configuration.HibernateXMLConfTest;
 import io.swagger.model.*;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -28,6 +30,7 @@ import static org.junit.Assert.*;
         classes = {HibernateXMLConfTest.class},
         loader = AnnotationConfigContextLoader.class)
 @Transactional
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class AlarmServiceImplTest {
 
     @MockBean
@@ -40,7 +43,7 @@ public class AlarmServiceImplTest {
     AlarmServiceImpl objServiceTest;
 
     @Test
-    public void testList(){
+    public void step1_listTest(){
 
         //init Alarms
         Alarm alarm1 = AlarmInit.init("1");
@@ -110,33 +113,73 @@ public class AlarmServiceImplTest {
     }
 
     @Test
-    public void testMethods() {
+    public void step2_saveTest(){
 
-//        // save Alarm pojo
-//        Alarm alarm1 = AlarmInit.init("1");
-//        objServiceTest.save(alarm1);
-//        System.out.println("---> Alarm ID: " + alarm1.getId());
-//        assertNotNull(alarm1.getId());
-//
-//        assertTrue(alarm1.getAffectedService().size() > 0);
-//
-//        AffectedService affectedService = alarm1.getAffectedService().get(alarm1.getAffectedService().size() - 1);
-//        System.out.println("---> Affected service: " + affectedService);
-//        assertNotNull(affectedService);
-//
-//
-//        // get Alarm pojo
-//        Serializable id = alarm1.getId();
-//        Alarm alarmRetrieved = objServiceTest.retrieve(id);
-//        assertEquals(alarm1.getId(), alarmRetrieved.getId());
-//
-//        // get List<Alarm> pojos
-//        List<Alarm> list = objServiceTest.list();
-//        assertTrue(list.size() == 1);
-//
-//        Alarm gotAlarm = list.get(0);
+        //init Alarm
+        Alarm alarm4 = AlarmInit.init("4");
 
+        //save Alarm
+        objServiceTest.save(alarm4);
+        assertNotNull(alarm4.getId());
+
+        //get Alarm
+        Alarm retrieve = objServiceTest.retrieve(4L);
+        assertEquals(alarm4.getId(), retrieve.getId());
+
+        assertEquals(retrieve.getAckUserId(), "AckUserId4");
+        assertEquals(retrieve.getType(), "Type4");
+        assertEquals(retrieve.getBaseType(), "BaseType4");
+        assertEquals(retrieve.getAlarmType(), "AlarmType4");
+        assertEquals(retrieve.getClearSystemId(), "ClearSystemId4");
+
+        assertNotNull(retrieve.getComments().get(0).getSystemId());
+        assertEquals(2, retrieve.getComments().size());
+
+        assertEquals("Direction4", retrieve.getCrossedThresholdInformation().getDirection());
+        assertNotNull(retrieve.getCrossedThresholdInformation().getThresholdId());
+
+
+        assertEquals(2, retrieve.getParentAlarm().size());
+        assertNotNull(retrieve.getParentAlarm().get(0).getId());
+
+        assertEquals(2, retrieve.getCorrelatedAlarm().size());
+        assertNotNull(retrieve.getCorrelatedAlarm().get(0).getId());
+
+        assertEquals(2, retrieve.getAffectedService().size());
+        assertNotNull(retrieve.getAffectedService().get(0).getId());
+
+        assertEquals("Href4", retrieve.getAlarmedObject().getHref());
+        assertNotNull(retrieve.getAlarmedObject().getId());
     }
+
+//    @Test
+//    public void testMethods() {
+//
+////        // save Alarm pojo
+////        Alarm alarm1 = AlarmInit.init("1");
+////        objServiceTest.save(alarm1);
+////        System.out.println("---> Alarm ID: " + alarm1.getId());
+////        assertNotNull(alarm1.getId());
+////
+////        assertTrue(alarm1.getAffectedService().size() > 0);
+////
+////        AffectedService affectedService = alarm1.getAffectedService().get(alarm1.getAffectedService().size() - 1);
+////        System.out.println("---> Affected service: " + affectedService);
+////        assertNotNull(affectedService);
+////
+////
+////        // get Alarm pojo
+////        Serializable id = alarm1.getId();
+////        Alarm alarmRetrieved = objServiceTest.retrieve(id);
+////        assertEquals(alarm1.getId(), alarmRetrieved.getId());
+////
+////        // get List<Alarm> pojos
+////        List<Alarm> list = objServiceTest.list();
+////        assertTrue(list.size() == 1);
+////
+////        Alarm gotAlarm = list.get(0);
+//
+//    }
 
     @Before
     public void setUp() throws Exception {

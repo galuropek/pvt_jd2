@@ -115,12 +115,15 @@ public class AlarmDaoImplTest {
 
     @Test
     public void step4_update() {
+
+        //init and save new Alarm
         Alarm alarm5 = AlarmInit.init("5");
         alarmDao.save(alarm5);
-        assertTrue(alarm5.getId() == 5L);
-        assertEquals(alarm5.getAckUserId(), "AckUserId5");
+        Long id = 5L;
+        assertTrue(alarm5.getId().equals(id));
         System.out.println("---> Print Alarm5:\n" + alarm5);
 
+        assertEquals(alarm5.getAckUserId(), "AckUserId5");
         assertEquals(alarm5.getType(), "Type5");
         assertEquals(alarm5.getBaseType(), "BaseType5");
         assertEquals(alarm5.getAlarmType(), "AlarmType5");
@@ -145,30 +148,42 @@ public class AlarmDaoImplTest {
         assertEquals(alarm5.getAlarmedObject().getHref(), "Href5");
         assertNotNull(alarm5.getAlarmedObject().getId());
 
-//        Alarm update = AlarmInit.init("7");
-//        update.setId(alarm5.getId());
-//        update.setAlarmedObject(alarm5.getAlarmedObject());
-//        update.setAffectedService(alarm5.getAffectedService());
-//        update.setCorrelatedAlarm(alarm5.getCorrelatedAlarm());
-//        update.setParentAlarm(alarm5.getParentAlarm());
-//        update.setCrossedThresholdInformation(alarm5.getCrossedThresholdInformation());
-//        update.setComments(alarm5.getComments());
-//        System.out.println(update);
-//        alarm5.setId(null);
-//        System.out.println(alarm5);
-//        alarmDao.save(update);
-//        System.out.println(alarmDao.get(5L));
+        //init new Alarm
+        Alarm alarm = AlarmInit.init("Updated");
 
-        Alarm alarmUpdate = new Alarm()
-                .id(alarm5.getId())
-                .type("TypeUpdate")
-                .alarmedObject(new AlarmedObject()
-                        .href("hrefUpdate"));
-        BeanUtils.copyProperties(alarmUpdate, alarm5);
-        alarmDao.update(alarm5);
-        System.out.println(alarm5);
-        Alarm alarm = alarmDao.get(alarm5.getId());
-        System.out.println(alarm);
+        //get saved Alarm
+        Alarm alarmSaved = alarmDao.get(id);
+
+        //copy properties
+        alarm.setId(id);
+        BeanUtils.copyProperties(alarm, alarmSaved);
+
+        //update
+        alarmDao.update(alarmSaved);
+
+        //get updated Alarm
+        Alarm alarmUpdated = alarmDao.get(id);
+        assertTrue(alarmUpdated.getId().equals(id));
+        assertEquals(alarmUpdated.getAckUserId(), "AckUserIdUpdated");
+        System.out.println("---> Print Alarm5 after update:\n" + alarmUpdated);
+
+        assertEquals(alarmUpdated.getAckUserId(), "AckUserIdUpdated");
+        assertEquals(alarmUpdated.getType(), "TypeUpdated");
+        assertEquals(alarmUpdated.getBaseType(), "BaseTypeUpdated");
+        assertEquals(alarmUpdated.getAlarmType(), "AlarmTypeUpdated");
+        assertEquals(alarmUpdated.getClearSystemId(), "ClearSystemIdUpdated");
+
+        assertEquals(alarmUpdated.getComments().get(0).getComment(), "Comment1");
+
+        assertEquals(alarmUpdated.getCrossedThresholdInformation().getDirection(), "DirectionUpdated");
+
+        assertEquals(alarmUpdated.getParentAlarm().get(0).getHref(), "Href1");
+
+        assertEquals(alarmUpdated.getCorrelatedAlarm().get(0).getHref(), "Href1");
+
+        assertEquals(alarmUpdated.getAffectedService().get(0).getHref(), "Href1");
+
+        assertEquals(alarmUpdated.getAlarmedObject().getHref(), "HrefUpdated");
     }
 
     @Test

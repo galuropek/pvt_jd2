@@ -1,7 +1,8 @@
 package io.swagger.service;
 
 import io.swagger.dao.AlarmDaoImpl;
-import io.swagger.model.Alarm;
+import io.swagger.model.*;
+import io.swagger.util.PropertiesUtils;
 import io.swagger.util.Validator;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,8 +68,12 @@ public class AlarmServiceImpl extends BaseServiceImpl {
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void update(Alarm alarm) {
-        log.info("update(): " + alarm);
-        alarmDao.update(alarm);
+    public void update(Serializable id, Alarm alarmEdited) {
+        Alarm alarmOriginal = alarmDao.get(id);
+        Alarm alarmUpdated = PropertiesUtils.updateProperties(alarmOriginal, alarmEdited);
+        BeanUtils.copyProperties(alarmUpdated, alarmOriginal);
+        alarmOriginal.setId((Long) id);
+        log.info("update(): " + alarmOriginal);
+        alarmDao.update(alarmOriginal);
     }
 }

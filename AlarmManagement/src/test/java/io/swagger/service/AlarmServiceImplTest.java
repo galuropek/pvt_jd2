@@ -40,31 +40,101 @@ public class AlarmServiceImplTest {
     AlarmServiceImpl objServiceTest;
 
     @Test
+    public void testList(){
+
+        //init Alarms
+        Alarm alarm1 = AlarmInit.init("1");
+        Alarm alarm2 = AlarmInit.init("2");
+        Alarm alarm3 = AlarmInit.init("3");
+
+        //save Alarms
+        objServiceTest.save(alarm1);
+        objServiceTest.save(alarm2);
+        objServiceTest.save(alarm3);
+        assertNotNull(alarm1.getId());
+        assertNotNull(alarm2.getId());
+        assertNotNull(alarm3.getId());
+
+
+        //init and save Alarms
+//        List<Alarm> listAlarms = List.of(
+//                AlarmInit.init("1"),
+//                AlarmInit.init("2"),
+//                AlarmInit.init("3"),
+//                AlarmInit.init("4"),
+//                AlarmInit.init("5")
+//        );
+//        listAlarms.forEach(item ->
+//                objServiceTest.save(item)
+//        );
+
+        //get list
+        List<Alarm> list = objServiceTest.list();
+        assertEquals(3, list.size());
+
+        //Alarm 1
+        assertEquals(alarm1.getId(), list.get(0).getId());
+        assertEquals(alarm1.getAlarmedObject().getId(), list.get(0).getAlarmedObject().getId());
+
+        assertEquals(alarm1.getAckUserId(), "AckUserId1");
+        assertEquals(alarm1.getType(), "Type1");
+        assertEquals(alarm1.getBaseType(), "BaseType1");
+
+        assertEquals(list.get(0).getAckUserId(), "AckUserId1");
+        assertEquals(list.get(0).getType(), "Type1");
+        assertEquals(list.get(0).getBaseType(), "BaseType1");
+
+        //Alarm 2
+        assertEquals(alarm2.getId(), list.get(1).getId());
+        assertEquals(alarm2.getAlarmedObject().getId(), list.get(1).getAlarmedObject().getId());
+
+        assertEquals(alarm2.getAckUserId(), "AckUserId2");
+        assertEquals(alarm2.getType(), "Type2");
+        assertEquals(alarm2.getBaseType(), "BaseType2");
+
+        assertEquals(list.get(1).getAckUserId(), "AckUserId2");
+        assertEquals(list.get(1).getType(), "Type2");
+        assertEquals(list.get(1).getBaseType(), "BaseType2");
+
+        //Alarm 3
+        assertEquals(alarm3.getId(), list.get(2).getId());
+        assertEquals(alarm3.getAlarmedObject().getId(), list.get(2).getAlarmedObject().getId());
+
+        assertEquals(alarm3.getAckUserId(), "AckUserId3");
+        assertEquals(alarm3.getType(), "Type3");
+        assertEquals(alarm3.getBaseType(), "BaseType3");
+
+        assertEquals(list.get(2).getAckUserId(), "AckUserId3");
+        assertEquals(list.get(2).getType(), "Type3");
+        assertEquals(list.get(2).getBaseType(), "BaseType3");
+    }
+
+    @Test
     public void testMethods() {
 
-        // save Alarm pojo
-        Alarm alarm1 = AlarmInit.init("1");
-        objServiceTest.save(alarm1);
-        System.out.println("---> Alarm ID: " + alarm1.getId());
-        assertNotNull(alarm1.getId());
-
-        assertTrue(alarm1.getAffectedService().size() > 0);
-
-        AffectedService affectedService = alarm1.getAffectedService().get(alarm1.getAffectedService().size() - 1);
-        System.out.println("---> Affected service: " + affectedService);
-        assertNotNull(affectedService);
-
-
-        // get Alarm pojo
-        Serializable id = alarm1.getId();
-        Alarm alarmRetrieved = objServiceTest.retrieve(id);
-        assertEquals(alarm1.getId(), alarmRetrieved.getId());
-
-        // get List<Alarm> pojos
-        List<Alarm> list = objServiceTest.list();
-        assertTrue(list.size() == 1);
-
-        Alarm gotAlarm = list.get(0);
+//        // save Alarm pojo
+//        Alarm alarm1 = AlarmInit.init("1");
+//        objServiceTest.save(alarm1);
+//        System.out.println("---> Alarm ID: " + alarm1.getId());
+//        assertNotNull(alarm1.getId());
+//
+//        assertTrue(alarm1.getAffectedService().size() > 0);
+//
+//        AffectedService affectedService = alarm1.getAffectedService().get(alarm1.getAffectedService().size() - 1);
+//        System.out.println("---> Affected service: " + affectedService);
+//        assertNotNull(affectedService);
+//
+//
+//        // get Alarm pojo
+//        Serializable id = alarm1.getId();
+//        Alarm alarmRetrieved = objServiceTest.retrieve(id);
+//        assertEquals(alarm1.getId(), alarmRetrieved.getId());
+//
+//        // get List<Alarm> pojos
+//        List<Alarm> list = objServiceTest.list();
+//        assertTrue(list.size() == 1);
+//
+//        Alarm gotAlarm = list.get(0);
 
     }
 

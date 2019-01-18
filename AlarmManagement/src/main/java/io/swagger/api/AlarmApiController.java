@@ -51,7 +51,7 @@ public class AlarmApiController implements AlarmApi {
         this.request = request;
     }
 
-    //in processing...
+    //doesn`t work
     public ResponseEntity<Alarm> alarmClearbyID(@ApiParam(value = "", required = true) @PathVariable("alarmId") String alarmId, @ApiParam(value = "") @Valid @RequestBody Alarm alarm) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
@@ -120,11 +120,9 @@ public class AlarmApiController implements AlarmApi {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
-                Alarm alarmOriginal = alarmService.retrieve(Long.valueOf(alarmId));
-                Alarm alarmUpdate = copyAlarmedObjectProperties(alarmOriginal, alarm);
-                alarmService.update(alarmUpdate);
+                alarmService.update(Long.valueOf(alarmId), alarm);
                 return new ResponseEntity<Alarm>(
-                        alarmService.retrieve(alarmUpdate.getId()),
+                        alarmService.retrieve(Long.valueOf(alarmId)),
                         HttpStatus.OK);
 //                return new ResponseEntity<Alarm>(objectMapper.readValue("{  \"alarmRaisedTime\" : \"2000-01-23T04:56:07.000+00:00\",  \"alarmClearedTime\" : \"2000-01-23T04:56:07.000+00:00\",  \"alarmedObjectType\" : \"alarmedObjectType\",  \"@type\" : \"@type\",  \"proposedRepairedActions\" : \"proposedRepairedActions\",  \"correlatedAlarm\" : [ {    \"href\" : \"href\",    \"id\" : \"id\"  }, {    \"href\" : \"href\",    \"id\" : \"id\"  } ],  \"alarmReportingTime\" : \"2000-01-23T04:56:07.000+00:00\",  \"alarmedObject\" : {    \"href\" : \"href\",    \"id\" : \"id\"  },  \"alarmChangedTime\" : \"2000-01-23T04:56:07.000+00:00\",  \"@baseType\" : \"@baseType\",  \"perceivedSeverity\" : \"perceivedSeverity\",  \"affectedService\" : [ {    \"href\" : \"href\",    \"id\" : \"id\"  }, {    \"href\" : \"href\",    \"id\" : \"id\"  } ],  \"ackSystemId\" : \"ackSystemId\",  \"id\" : 0,  \"href\" : \"href\",  \"state\" : \"state\",  \"@schemaLocation\" : \"@schemaLocation\",  \"crossedThresholdInformation\" : {    \"indicatorName\" : \"indicatorName\",    \"thresholdCrossingDescription\" : \"thresholdCrossingDescription\",    \"granularity\" : \"granularity\",    \"observedValue\" : \"observedValue\",    \"thresholdId\" : \"thresholdId\",    \"thresholdRef\" : \"thresholdRef\",    \"indicatorUnit\" : \"indicatorUnit\",    \"direction\" : \"direction\"  },  \"externalAlarmId\" : \"externalAlarmId\",  \"clearSystemId\" : \"clearSystemId\",  \"parentAlarm\" : [ {    \"href\" : \"href\",    \"id\" : \"id\"  }, {    \"href\" : \"href\",    \"id\" : \"id\"  } ],  \"isRootCause\" : \"isRootCause\",  \"ackUserId\" : \"ackUserId\",  \"comments\" : [ {    \"systemId\" : \"systemId\",    \"comment\" : \"comment\",    \"time\" : \"2000-01-23T04:56:07.000+00:00\",    \"userId\" : \"userId\"  }, {    \"systemId\" : \"systemId\",    \"comment\" : \"comment\",    \"time\" : \"2000-01-23T04:56:07.000+00:00\",    \"userId\" : \"userId\"  } ],  \"sourceSystemId\" : \"sourceSystemId\",  \"clearUserId\" : \"clearUserId\",  \"serviceAffecting\" : \"serviceAffecting\",  \"alarmEscelation\" : \"alarmEscelation\",  \"ackState\" : \"ackState\",  \"alarmType\" : \"alarmType\",  \"plannedOutageIndicator\" : \"plannedOutageIndicator\",  \"alarmDetails\" : \"alarmDetails\"}", Alarm.class), HttpStatus.NOT_IMPLEMENTED);
             } catch (Exception e) {
@@ -133,186 +131,6 @@ public class AlarmApiController implements AlarmApi {
             }
         }
         return new ResponseEntity<Alarm>(HttpStatus.NOT_IMPLEMENTED);
-    }
-
-    private Alarm copyAlarmedObjectProperties(Alarm alarmOriginal, Alarm alarmRequest) {
-
-        Alarm alarmUpdate = new Alarm();
-        alarmUpdate.setId(alarmOriginal.getId());
-        alarmUpdate.setHref((String) PropertiesUtils.copyStringProperties(
-                alarmOriginal.getHref(),
-                alarmRequest.getHref()));
-        alarmUpdate.setType((String) PropertiesUtils.copyStringProperties(
-                alarmOriginal.getType(),
-                alarmRequest.getType()));
-        alarmUpdate.setBaseType((String) PropertiesUtils.copyStringProperties(
-                alarmOriginal.getBaseType(),
-                alarmRequest.getBaseType()));
-        alarmUpdate.setSchemaLocation((String) PropertiesUtils.copyStringProperties(
-                alarmOriginal.getSchemaLocation(),
-                alarmRequest.getSchemaLocation()));
-        alarmUpdate.setExternalAlarmId((String) PropertiesUtils.copyStringProperties(
-                alarmOriginal.getExternalAlarmId(),
-                alarmRequest.getExternalAlarmId()));
-        alarmUpdate.setAlarmType((String) PropertiesUtils.copyStringProperties(
-                alarmOriginal.getAlarmType(),
-                alarmRequest.getAlarmType()));
-        alarmUpdate.setPerceivedSeverity((String) PropertiesUtils.copyStringProperties(
-                alarmOriginal.getPerceivedSeverity(),
-                alarmRequest.getPerceivedSeverity()));
-        alarmUpdate.setAlarmedObjectType((String) PropertiesUtils.copyStringProperties(
-                alarmOriginal.getAlarmedObjectType(),
-                alarmRequest.getAlarmedObjectType()));
-
-        //ready object
-        @Valid AlarmedObject alarmedObjectOriginal = alarmOriginal.getAlarmedObject();
-        @Valid AlarmedObject alarmedObjectRequest = alarmRequest.getAlarmedObject();
-        if (copyAlarmedObjectProperties(alarmedObjectOriginal, alarmedObjectRequest) != null) {
-            alarmUpdate.setAlarmedObject(
-                    copyAlarmedObjectProperties(
-                            alarmedObjectOriginal,
-                            alarmedObjectRequest));
-        }
-
-
-        alarmUpdate.setSourceSystemId((String) PropertiesUtils.copyStringProperties(
-                alarmOriginal.getSourceSystemId(),
-                alarmRequest.getSourceSystemId()));
-        alarmUpdate.setAlarmDetails((String) PropertiesUtils.copyStringProperties(
-                alarmOriginal.getAlarmDetails(),
-                alarmRequest.getAlarmDetails()));
-        alarmUpdate.setState((String) PropertiesUtils.copyStringProperties(
-                alarmOriginal.getState(),
-                alarmRequest.getState()));
-
-        //OffsetDateTime
-        alarmUpdate.setAlarmRaisedTime((OffsetDateTime) PropertiesUtils.copyOffsetDateTimeProperties(
-                alarmOriginal.getAlarmRaisedTime(),
-                alarmRequest.getAlarmRaisedTime()));
-
-        //OffsetDateTime
-        alarmUpdate.setAlarmChangedTime((OffsetDateTime) PropertiesUtils.copyOffsetDateTimeProperties(
-                alarmOriginal.getAlarmChangedTime(),
-                alarmRequest.getAlarmChangedTime()));
-
-        //OffsetDateTime
-        alarmUpdate.setAlarmClearedTime((OffsetDateTime) PropertiesUtils.copyOffsetDateTimeProperties(
-                alarmOriginal.getAlarmClearedTime(),
-                alarmRequest.getAlarmClearedTime()));
-
-        alarmUpdate.setProposedRepairedActions((String) PropertiesUtils.copyStringProperties(
-                alarmOriginal.getProposedRepairedActions(),
-                alarmRequest.getProposedRepairedActions()));
-
-        //OffsetDateTime
-        alarmUpdate.setAlarmReportingTime((OffsetDateTime) PropertiesUtils.copyOffsetDateTimeProperties(
-                alarmOriginal.getAlarmReportingTime(),
-                alarmRequest.getAlarmReportingTime()));
-
-        alarmUpdate.setAckState((String) PropertiesUtils.copyStringProperties(
-                alarmOriginal.getAckState(),
-                alarmRequest.getAckState()));
-        alarmUpdate.setAckUserId((String) PropertiesUtils.copyStringProperties(
-                alarmOriginal.getAckUserId(),
-                alarmRequest.getAckUserId()));
-        alarmUpdate.setAckSystemId((String) PropertiesUtils.copyStringProperties(
-                alarmOriginal.getAckSystemId(),
-                alarmRequest.getAckSystemId()));
-        alarmUpdate.setClearUserId((String) PropertiesUtils.copyStringProperties(
-                alarmOriginal.getClearUserId(),
-                alarmRequest.getClearUserId()));
-        alarmUpdate.setClearSystemId((String) PropertiesUtils.copyStringProperties(
-                alarmOriginal.getClearSystemId(),
-                alarmRequest.getClearSystemId()));
-        alarmUpdate.setPlannedOutageIndicator((String) PropertiesUtils.copyStringProperties(
-                alarmOriginal.getPlannedOutageIndicator(),
-                alarmRequest.getPlannedOutageIndicator()));
-        alarmUpdate.setAlarmEscelation((String) PropertiesUtils.copyStringProperties(
-                alarmOriginal.getAlarmEscelation(),
-                alarmRequest.getAlarmEscelation()));
-        alarmUpdate.setServiceAffecting((String) PropertiesUtils.copyStringProperties(
-                alarmOriginal.getServiceAffecting(),
-                alarmRequest.getServiceAffecting()));
-
-        //object
-//----------------------> for test set old List. Must edit later on update data.
-        @Valid List<AffectedService> affectedServiceOriginal = alarmOriginal.getAffectedService();
-        @Valid List<AffectedService> affectedServiceRequest = alarmRequest.getAffectedService();
-        alarmUpdate.setAffectedService(affectedServiceOriginal);
-//        alarmUpdate.setAffectedService(copyAffectedServiceProperties(affectedServiceOriginal,
-//                affectedServiceRequest));
-//        alarmUpdate.setAffectedService((AffectedService)properties.copyStringProperties(
-//                alarmOriginal.getAffectedService(),
-//                alarmRequest.getAffectedService()));
-
-        alarmUpdate.setIsRootCause((String) PropertiesUtils.copyStringProperties(
-                alarmOriginal.getIsRootCause(),
-                alarmRequest.getIsRootCause()));
-
-        //object
-//----------------------> for test set old List. Must edit later on update data.
-        @Valid List<CorrelatedAlarm> correlatedAlarmOriginal = alarmOriginal.getCorrelatedAlarm();
-        @Valid List<CorrelatedAlarm> correlatedAlarmRequest = alarmRequest.getCorrelatedAlarm();
-        alarmUpdate.setCorrelatedAlarm(correlatedAlarmOriginal);
-
-        //object
-//----------------------> for test set old List. Must edit later on update data.
-        @Valid List<ParentAlarm> parentAlarmOriginal = alarmOriginal.getParentAlarm();
-        @Valid List<ParentAlarm> parentAlarmRequest = alarmRequest.getParentAlarm();
-        alarmUpdate.setParentAlarm(parentAlarmOriginal);
-
-        //object
-//----------------------> for test set old List. Must edit later on update data.
-        alarmUpdate.setCrossedThresholdInformation(
-                alarmOriginal.getCrossedThresholdInformation());
-
-        //object
-//----------------------> for test set old List. Must edit later on update data.
-        @Valid List<Comments> commentsOriginal = alarmOriginal.getComments();
-        @Valid List<Comments> commentsRequest = alarmRequest.getComments();
-        alarmUpdate.setComments(commentsOriginal);
-
-
-//        alarmUpdate.set((String)properties.copyStringProperties(
-//                alarmOriginal.get,
-//                alarmRequest.get));
-        return alarmUpdate;
-    }
-
-    private AlarmedObject copyAlarmedObjectProperties(AlarmedObject original, AlarmedObject request) {
-        if (original != null && request != null) {
-            AlarmedObject alarmedObject = new AlarmedObject();
-            alarmedObject.setId((String) PropertiesUtils.copyStringProperties(
-                    original.getId(),
-                    request.getId()));
-            alarmedObject.setHref((String) PropertiesUtils.copyStringProperties(
-                    original.getHref(),
-                    request.getHref()));
-            return alarmedObject;
-        } else if (original == null && request != null) {
-            alarmedObjectService.save(request);
-            return request;
-        } else if (original != null && request == null) {
-            return original;
-        } else
-            return null;
-    }
-
-    private List<AffectedService> copyAffectedServiceProperties(
-            List<AffectedService> original,
-            List<AffectedService> request) {
-        if (original != null && request != null) {
-            request.forEach(item ->
-                    original.add(item));
-            return original;
-        } else if (original == null && request != null) {
-            List<AffectedService> update =
-                    affectedServiceService.update(request);
-            return update;
-        } else if (original != null && request == null) {
-            return original;
-        } else
-            return null;
     }
 
     //edited - List<ALARM> GET method - worked

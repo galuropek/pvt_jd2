@@ -37,6 +37,12 @@ public class AlarmServiceImpl extends BaseServiceImpl {
         return alarmDao.getAll();
     }
 
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+    public List<Alarm> listFields(String fields) {
+        log.info("list() alarmDao=" + alarmDao);
+        return alarmDao.getAll(fields);
+    }
+
     @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.REPEATABLE_READ)
     @SuppressWarnings("unchecked")
     public void save(Alarm item) {
@@ -60,6 +66,13 @@ public class AlarmServiceImpl extends BaseServiceImpl {
         return alarm;
     }
 
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+    public List<Alarm> retrieve(Serializable id, String fields) {
+        List<Alarm> alarm = alarmDao.get(id, fields);
+        log.info("delete: " + alarm);
+        return alarm;
+    }
+
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void delete(Serializable id) {
         Alarm alarm = alarmDao.get(id);
@@ -74,6 +87,16 @@ public class AlarmServiceImpl extends BaseServiceImpl {
         BeanUtils.copyProperties(alarmUpdated, alarmOriginal);
         alarmOriginal.setId((Long) id);
         log.info("update(): " + alarmOriginal);
+        alarmDao.update(alarmOriginal);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void clearFieldsById(Serializable id, Alarm alarmEdited){
+        Alarm alarmOriginal = alarmDao.get(id);
+        Alarm alarmUpdated = PropertiesUtils.clearProperties(alarmOriginal, alarmEdited);
+        BeanUtils.copyProperties(alarmUpdated, alarmOriginal);
+        alarmOriginal.setId((Long) id);
+        log.info("clearFieldsById(): " + alarmOriginal);
         alarmDao.update(alarmOriginal);
     }
 }

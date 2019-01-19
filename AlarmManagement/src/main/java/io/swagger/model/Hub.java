@@ -5,7 +5,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.validation.annotation.Validated;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -15,14 +21,20 @@ import javax.validation.constraints.*;
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-01-06T21:03:59.754+03:00")
 
+@Entity
 public class Hub   {
   @JsonProperty("id")
+  @Id
+  @GeneratedValue(generator = "UUID")
+  @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
   private String id = null;
 
   @JsonProperty("callback")
+  @Column
   private String callback = null;
 
   @JsonProperty("query")
+  @Column
   private String query = null;
 
   public Hub id(String id) {
@@ -74,7 +86,7 @@ public class Hub   {
    * Get query
    * @return query
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(value = "hub")
 
 
   public String getQuery() {

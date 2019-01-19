@@ -2,6 +2,7 @@ package io.swagger.dao;
 
 import io.swagger.model.Alarm;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -10,7 +11,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 @Repository
-public class AlarmDaoImpl extends BaseDaoImpl{
+public class AlarmDaoImpl extends BaseDaoImpl {
 
     private static Logger log = Logger.getLogger(AlarmDaoImpl.class.getName());
 
@@ -28,10 +29,21 @@ public class AlarmDaoImpl extends BaseDaoImpl{
         return openSession().createQuery("from Alarm").list();
     }
 
+    @SuppressWarnings("unchecked")
+    public List<Alarm> getAll(String fields) {
+        log.info("Call getAll()");
+        return openSession().createQuery("select " + fields.trim() + " from Alarm").list();
+    }
+
     @Override
     public Alarm get(Serializable id) {
         log.info("Call get()");
         return openSession().find(tClass, id);
+    }
+
+    public List get(Serializable id, String fields) {
+        log.info("Call get()");
+        return openSession().createQuery("select " + fields.trim() + " from Alarm where id=" + id).list();
     }
 
     @Override

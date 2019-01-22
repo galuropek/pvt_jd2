@@ -4,7 +4,11 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="t1000" class="by.home.impls.robot.ModelT1000"/>
+    <bean id="t1000" class="by.home.impls.robot.ModelT1000">
+        <constructor-arg ref="sonyHand"/>
+        <constructor-arg ref="sonyLeg"/>
+        <constructor-arg ref="sonyHead"/>
+    </bean>
 
     <bean id="sonyHand" class="by.home.impls.sony.SonyHand"/>
     <bean id="sonyHead" class="by.home.impls.sony.SonyHead"/>

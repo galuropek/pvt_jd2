@@ -13,7 +13,7 @@ public class Start {
 
         if (bean instanceof ModelT1000) {
             ModelT1000 t1000 = (ModelT1000) bean;
-            t1000.dance();
+            t1000.action();
         }
     }
 }

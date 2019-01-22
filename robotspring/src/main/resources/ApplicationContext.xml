@@ -4,6 +4,14 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-<bean id="t1000" class="by.home.impls.robot.ModelT1000"/>
+    <bean id="t1000" class="by.home.impls.robot.ModelT1000"/>
+
+    <bean id="sonyHand" class="by.home.impls.sony.SonyHand"/>
+    <bean id="sonyHead" class="by.home.impls.sony.SonyHead"/>
+    <bean id="sonyLeg" class="by.home.impls.sony.SonyLeg"/>
+
+    <bean id="toshibaHand" class="by.home.impls.toshiba.ToshibaHand"/>
+    <bean id="toshibaHead" class="by.home.impls.toshiba.ToshibaHead"/>
+    <bean id="toshibaLeg" class="by.home.impls.toshiba.ToshibaLeg"/>
 
 </beans>

@@ -12,11 +12,23 @@ public class Start {
 //        Object bean = context.getBean("t1000");
 
         //using other constructor
-        Object bean = context.getBean("t1000Empty");
+        ModelT1000 bean = (ModelT1000) context.getBean("t1000");
+        printBean(bean);
 
-        if (bean instanceof ModelT1000) {
-            ModelT1000 t1000 = (ModelT1000) bean;
-            t1000.action();
-        }
+        bean = (ModelT1000) context.getBean("t1000");
+        printBean(bean);
+
+//        if (bean instanceof ModelT1000) {
+//            ModelT1000 t1000 = (ModelT1000) bean;
+//            t1000.action();
+//        }
+    }
+
+    private static void printBean(ModelT1000 bean) {
+        System.out.println(bean);
+        System.out.println(bean.getHand());
+        System.out.println(bean.getHead());
+        System.out.println(bean.getLeg());
+        System.out.println("-----------------------------------------------");
     }
 }

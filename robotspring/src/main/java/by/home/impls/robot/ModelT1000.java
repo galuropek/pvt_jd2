@@ -92,6 +92,9 @@ public class ModelT1000 implements Robot {
         head.calc();
         hand.catchSomething();
         leg.go();
+        System.out.println("Color: " + color);
+        System.out.println("Year: " + year);
+        System.out.println("Can play sounds: " + soundEnabled);
     }
 
     @Override

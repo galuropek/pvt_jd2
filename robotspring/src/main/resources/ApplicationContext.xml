@@ -8,6 +8,11 @@
         <constructor-arg ref="sonyHand"/>
         <constructor-arg ref="sonyLeg"/>
         <constructor-arg ref="sonyHead"/>
+
+        <!-- this property are setting after constructor-args -->
+        <property name="hand" ref="toshibaHand"/>
+        <property name="head" ref="toshibaHead"/>
+
     </bean>
 
     <bean id="sonyHand" class="by.home.impls.sony.SonyHand"/>

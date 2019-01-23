@@ -9,7 +9,10 @@ public class Start {
         ApplicationContext context =
                 new ClassPathXmlApplicationContext("ApplicationContext.xml");
 
-        Object bean = context.getBean("t1000");
+//        Object bean = context.getBean("t1000");
+
+        //using other constructor
+        Object bean = context.getBean("t1000Empty");
 
         if (bean instanceof ModelT1000) {
             ModelT1000 t1000 = (ModelT1000) bean;

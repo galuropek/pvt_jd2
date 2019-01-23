@@ -28,6 +28,15 @@
 
     </bean>
 
+    <!-- using other constructor -->
+    <bean id="t1000Empty" class="by.home.impls.robot.ModelT1000">
+
+        <constructor-arg ref="sonyHand"/>
+        <constructor-arg ref="sonyLeg"/>
+        <constructor-arg ref="toshibaHead"/>
+
+    </bean>
+
     <bean id="sonyHand" class="by.home.impls.sony.SonyHand"/>
     <bean id="sonyHead" class="by.home.impls.sony.SonyHead"/>
     <bean id="sonyLeg" class="by.home.impls.sony.SonyLeg"/>

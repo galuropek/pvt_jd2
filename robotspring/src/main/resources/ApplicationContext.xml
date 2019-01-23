@@ -5,13 +5,21 @@
        http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="t1000" class="by.home.impls.robot.ModelT1000">
-        <constructor-arg ref="sonyHand"/>
-        <constructor-arg ref="sonyLeg"/>
-        <constructor-arg ref="sonyHead"/>
+
+        <!-- example with ref -->
+        <!--<constructor-arg ref="sonyHand"/>-->
+        <!--<constructor-arg ref="sonyLeg"/>-->
+        <!--<constructor-arg ref="sonyHead"/>-->
+
+        <!-- example with value -->
+        <constructor-arg value="2019" index="1" type="int"/>
+        <constructor-arg value="silver" index="0" type="String"/>
+        <constructor-arg value="true" index="2" type="boolean"/>
 
         <!-- this property are setting after constructor-args -->
         <property name="hand" ref="toshibaHand"/>
         <property name="head" ref="toshibaHead"/>
+        <property name="leg" ref="toshibaLeg"/>
 
     </bean>
 

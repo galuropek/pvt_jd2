@@ -1,72 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:p="http://www.springframework.org/schema/p"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-       http://www.springframework.org/schema/beans/spring-beans.xsd"
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-       default-init-method="initObject"
-       default-destroy-method="destroyObject"
->
-
-    <!-- example with namespace p -->
-    <!--<bean id="t1000" class="by.home.impls.robot.ModelT1000"-->
-          <!--p:hand-ref="toshibaHand"-->
-          <!--p:leg-ref="sonyLeg"-->
-          <!--p:head-ref="toshibaHead">-->
-
-        <!--&lt;!&ndash; example with ref &ndash;&gt;-->
-        <!--&lt;!&ndash;<constructor-arg ref="sonyHand"/>&ndash;&gt;-->
-        <!--&lt;!&ndash;<constructor-arg ref="sonyLeg"/>&ndash;&gt;-->
-        <!--&lt;!&ndash;<constructor-arg ref="sonyHead"/>&ndash;&gt;-->
-
-        <!--&lt;!&ndash; example with value &ndash;&gt;-->
-        <!--<constructor-arg value="2019" index="1" type="int"/>-->
-        <!--<constructor-arg value="silver" index="0" type="String"/>-->
-        <!--<constructor-arg value="true" index="2" type="boolean"/>-->
-
-        <!--&lt;!&ndash; this property are setting after constructor-args &ndash;&gt;-->
-        <!--&lt;!&ndash;<property name="hand" ref="toshibaHand"/>&ndash;&gt;-->
-        <!--&lt;!&ndash;<property name="head" ref="toshibaHead"/>&ndash;&gt;-->
-        <!--&lt;!&ndash;<property name="leg" ref="toshibaLeg"/>&ndash;&gt;-->
-
-    <!--</bean>-->
-
-    <!-- using other constructor -->
-    <bean id="t1000Empty"
-          class="by.home.impls.robot.ModelT1000"
-          lazy-init="true"
-    >
-
-        <constructor-arg ref="sonyHand"/>
-        <constructor-arg ref="sonyLeg"/>
-        <constructor-arg ref="toshibaHead"/>
-
-    </bean>
-
-    <!-- example with scope parameter -->
-    <bean id="t1000"
-          class="by.home.impls.robot.ModelT1000"
-          p:hand-ref="toshibaHand"
-          p:leg-ref="sonyLeg"
-          p:head-ref="toshibaHead"
-          scope="prototype"
-          lazy-init="true"
-    >
-
-        <constructor-arg value="2019" index="1"/>
-        <constructor-arg value="silver" index="0"/>
-        <constructor-arg value="true" index="2"/>
-
-    </bean>
-
-
-    <bean id="sonyHand" class="by.home.impls.sony.SonyHand"/>
-    <bean id="sonyHead" class="by.home.impls.sony.SonyHead"/>
-    <bean id="sonyLeg" class="by.home.impls.sony.SonyLeg"/>
-
-    <bean id="toshibaHand" class="by.home.impls.toshiba.ToshibaHand"/>
-    <bean id="toshibaHead" class="by.home.impls.toshiba.ToshibaHead"/>
-    <bean id="toshibaLeg" class="by.home.impls.toshiba.ToshibaLeg"/>
+    <import resource="ModelT1000Context.xml"/>
 
 </beans>

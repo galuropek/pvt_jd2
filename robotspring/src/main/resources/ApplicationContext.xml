@@ -6,4 +6,6 @@
 
     <import resource="ModelT1000Context.xml"/>
 
+    <bean class="by.home.main.MyBeanPostProcessor"/>
+
 </beans>

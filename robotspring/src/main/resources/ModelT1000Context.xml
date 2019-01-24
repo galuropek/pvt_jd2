@@ -10,6 +10,7 @@
 
     <import resource="SonyContext.xml"/>
     <import resource="ToshibaContext.xml"/>
+    <import resource="DatabaseContext.xml"/>
 
     <!-- example with namespace p -->
     <!--<bean id="t1000" class="by.home.impls.robot.ModelT1000"-->
@@ -52,7 +53,7 @@
           p:leg-ref="sonyLeg"
           p:head-ref="toshibaHead"
           scope="prototype"
-          lazy-init="true">
+          depends-on="databaseBean">
 
         <constructor-arg value="2019" index="1"/>
         <constructor-arg value="silver" index="0"/>

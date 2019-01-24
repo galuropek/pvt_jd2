@@ -3,8 +3,6 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:p="http://www.springframework.org/schema/p"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
-       default-init-method="initObject"
-       default-destroy-method="destroyObject"
        default-lazy-init="true"
 >
 
@@ -18,46 +16,57 @@
     <!--p:leg-ref="sonyLeg"-->
     <!--p:head-ref="toshibaHead">-->
 
-    <!--&lt;!&ndash; example with ref &ndash;&gt;-->
-    <!--&lt;!&ndash;<constructor-arg ref="sonyHand"/>&ndash;&gt;-->
-    <!--&lt;!&ndash;<constructor-arg ref="sonyLeg"/>&ndash;&gt;-->
-    <!--&lt;!&ndash;<constructor-arg ref="sonyHead"/>&ndash;&gt;-->
+    <!-- example with ref -->
+    <!--<constructor-arg ref="sonyHand"/>-->
+    <!--<constructor-arg ref="sonyLeg"/>-->
+    <!--<constructor-arg ref="sonyHead"/>-->
 
-    <!--&lt;!&ndash; example with value &ndash;&gt;-->
+    <!-- example with value -->
     <!--<constructor-arg value="2019" index="1" type="int"/>-->
     <!--<constructor-arg value="silver" index="0" type="String"/>-->
     <!--<constructor-arg value="true" index="2" type="boolean"/>-->
 
-    <!--&lt;!&ndash; this property are setting after constructor-args &ndash;&gt;-->
-    <!--&lt;!&ndash;<property name="hand" ref="toshibaHand"/>&ndash;&gt;-->
-    <!--&lt;!&ndash;<property name="head" ref="toshibaHead"/>&ndash;&gt;-->
-    <!--&lt;!&ndash;<property name="leg" ref="toshibaLeg"/>&ndash;&gt;-->
+    <!-- this property are setting after constructor-args -->
+    <!--<property name="hand" ref="toshibaHand"/>-->
+    <!--<property name="head" ref="toshibaHead"/>-->
+    <!--<property name="leg" ref="toshibaLeg"/>-->
 
     <!--</bean>-->
 
     <!-- using other constructor -->
-    <bean id="t1000Empty"
-          class="by.home.impls.robot.ModelT1000"
-          lazy-init="true">
+    <!--<bean id="t1000Empty"-->
+          <!--class="by.home.impls.robot.ModelT1000">-->
 
-        <constructor-arg ref="sonyHand"/>
-        <constructor-arg ref="sonyLeg"/>
-        <constructor-arg ref="toshibaHead"/>
+        <!--<constructor-arg ref="sonyHand"/>-->
+        <!--<constructor-arg ref="sonyLeg"/>-->
+        <!--<constructor-arg ref="toshibaHead"/>-->
 
-    </bean>
+    <!--</bean>-->
 
     <!-- example with scope parameter -->
     <bean id="t1000"
           class="by.home.impls.robot.ModelT1000"
-          p:hand-ref="toshibaHand"
-          p:leg-ref="sonyLeg"
-          p:head-ref="toshibaHead"
-          scope="prototype"
-          depends-on="databaseBean">
+          parent="baseModel"
+    >
 
-        <constructor-arg value="2019" index="1"/>
-        <constructor-arg value="silver" index="0"/>
-        <constructor-arg value="true" index="2"/>
+        <constructor-arg value="2019" index="4"/>
+        <constructor-arg value="silver" index="3"/>
+        <constructor-arg value="true" index="5"/>
+
+        <property name="hand" ref="sonyHand"/>
+
+    </bean>
+
+    <bean id="baseModel"
+          class="by.home.impls.robot.BaseModel"
+          abstract="true"
+    >
+
+        <constructor-arg ref="sonyHand" index="0"/>
+        <constructor-arg ref="sonyLeg" index="1"/>
+        <constructor-arg ref="sonyHead" index="2"/>
+
+        <property name="hand" ref="toshibaHand"/>
 
     </bean>
 

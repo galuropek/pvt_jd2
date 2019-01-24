@@ -4,8 +4,10 @@ import by.home.interfaces.Hand;
 import by.home.interfaces.Head;
 import by.home.interfaces.Leg;
 import by.home.interfaces.Robot;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
 
-public class ModelT1000 implements Robot {
+public class ModelT1000 implements Robot, InitializingBean, DisposableBean {
 
     private Hand hand;
     private Leg leg;
@@ -102,11 +104,13 @@ public class ModelT1000 implements Robot {
         System.out.println("T1000 is dancing!");
     }
 
-    public void initObject() {
-        System.out.println("Init");
+    @Override
+    public void destroy() throws Exception {
+        System.out.println(this + " - method destroy()");
     }
 
-    public void destroyObject() {
-        System.out.println("Destroy");
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        System.out.println(this + " - method init()");
     }
 }

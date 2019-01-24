@@ -9,14 +9,14 @@ public class Start {
         ApplicationContext context =
                 new ClassPathXmlApplicationContext("ApplicationContext.xml");
 
-//        Object bean = context.getBean("t1000");
+        ModelT1000 bean = (ModelT1000) context.getBean("t1000");
 
         //using other constructor
-        ModelT1000 bean = (ModelT1000) context.getBean("t1000");
-        printBean(bean);
-
-        bean = (ModelT1000) context.getBean("t1000");
-        printBean(bean);
+//        ModelT1000 bean = (ModelT1000) context.getBean("t1000");
+//        printBean(bean);
+//
+//        bean = (ModelT1000) context.getBean("t1000");
+//        printBean(bean);
 
 //        if (bean instanceof ModelT1000) {
 //            ModelT1000 t1000 = (ModelT1000) bean;

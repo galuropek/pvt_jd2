@@ -1,6 +1,8 @@
 package by.home.main;
 
 import by.home.impls.robot.ModelT1000;
+import by.home.interfaces.Robot;
+import by.home.interfaces.RobotCoveyor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -9,26 +11,16 @@ public class Start {
         ApplicationContext context =
                 new ClassPathXmlApplicationContext("ApplicationContext.xml");
 
-        ModelT1000 bean = (ModelT1000) context.getBean("t1000");
-
-        //using other constructor
 //        ModelT1000 bean = (ModelT1000) context.getBean("t1000");
-//        printBean(bean);
-//
-//        bean = (ModelT1000) context.getBean("t1000");
-//        printBean(bean);
 
-//        if (bean instanceof ModelT1000) {
-//            ModelT1000 t1000 = (ModelT1000) bean;
-//            t1000.action();
-//        }
-    }
+        RobotCoveyor t1000Conveyor = (RobotCoveyor) context.getBean("t1000Conveyor");
 
-    private static void printBean(ModelT1000 bean) {
-        System.out.println(bean);
-        System.out.println(bean.getHand());
-        System.out.println(bean.getHead());
-        System.out.println(bean.getLeg());
-        System.out.println("-----------------------------------------------");
+        Robot terminator1 = t1000Conveyor.createRobot();
+        Robot terminator2 = t1000Conveyor.createRobot();
+        Robot terminator3 = t1000Conveyor.createRobot();
+
+        System.out.println("Terminator1 " + terminator1);
+        System.out.println("Terminator2 " + terminator2);
+        System.out.println("Terminator3 " + terminator3);
     }
 }

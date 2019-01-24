@@ -46,6 +46,7 @@
     <!-- example with scope parameter -->
     <bean id="t1000"
           class="by.home.impls.robot.ModelT1000"
+          scope="prototype"
           parent="baseModel"
     >
 

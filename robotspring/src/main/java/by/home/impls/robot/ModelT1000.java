@@ -3,27 +3,21 @@ package by.home.impls.robot;
 import by.home.interfaces.Hand;
 import by.home.interfaces.Head;
 import by.home.interfaces.Leg;
-import by.home.interfaces.Robot;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 
-public class ModelT1000 implements Robot, InitializingBean, DisposableBean {
-
-    private Hand hand;
-    private Leg leg;
-    private Head head;
+public class ModelT1000 extends BaseModel implements InitializingBean, DisposableBean {
 
     private String color;
     private int year;
     private boolean soundEnabled;
 
     public ModelT1000() {
+        super();
     }
 
     public ModelT1000(Hand hand, Leg leg, Head head) {
-        this.hand = hand;
-        this.leg = leg;
-        this.head = head;
+        super(hand, leg, head);
     }
 
     public ModelT1000(String color, int year, boolean soundEnabled) {
@@ -33,36 +27,10 @@ public class ModelT1000 implements Robot, InitializingBean, DisposableBean {
     }
 
     public ModelT1000(Hand hand, Leg leg, Head head, String color, int year, boolean soundEnabled) {
-        this.hand = hand;
-        this.leg = leg;
-        this.head = head;
+        super(hand, leg, head);
         this.color = color;
         this.year = year;
         this.soundEnabled = soundEnabled;
-    }
-
-    public Hand getHand() {
-        return hand;
-    }
-
-    public void setHand(Hand hand) {
-        this.hand = hand;
-    }
-
-    public Leg getLeg() {
-        return leg;
-    }
-
-    public void setLeg(Leg leg) {
-        this.leg = leg;
-    }
-
-    public Head getHead() {
-        return head;
-    }
-
-    public void setHead(Head head) {
-        this.head = head;
     }
 
     public String getColor() {
@@ -91,9 +59,9 @@ public class ModelT1000 implements Robot, InitializingBean, DisposableBean {
 
     @Override
     public void action() {
-        head.calc();
-        hand.catchSomething();
-        leg.go();
+        getHead().calc();
+        getHand().catchSomething();
+        getLeg().go();
         System.out.println("Color: " + color);
         System.out.println("Year: " + year);
         System.out.println("Can play sounds: " + soundEnabled);

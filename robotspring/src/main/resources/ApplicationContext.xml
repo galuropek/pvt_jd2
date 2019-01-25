@@ -12,4 +12,21 @@
         <lookup-method name="createRobot" bean="t1000"/>
     </bean>
 
+    <bean id="t1000Pool" class="by.home.impls.pool.T1000Pool">
+        <property name="robotCollection">
+            <list>
+                <ref bean="t1000"/>
+                <bean class="by.home.impls.robot.ModelT1000"
+                      parent="baseModel">
+
+                    <constructor-arg value="gold"/>
+                    <constructor-arg value="2020"/>
+                    <constructor-arg value="false"/>
+
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
 </beans>

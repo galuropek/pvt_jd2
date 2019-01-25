@@ -1,5 +1,6 @@
 package by.home.main;
 
+import by.home.impls.pool.T1000Pool;
 import by.home.impls.robot.ModelT1000;
 import by.home.interfaces.Robot;
 import by.home.interfaces.RobotCoveyor;
@@ -13,14 +14,17 @@ public class Start {
 
 //        ModelT1000 bean = (ModelT1000) context.getBean("t1000");
 
-        RobotCoveyor t1000Conveyor = (RobotCoveyor) context.getBean("t1000Conveyor");
+//        RobotCoveyor t1000Conveyor = (RobotCoveyor) context.getBean("t1000Conveyor");
+//
+//        Robot terminator1 = t1000Conveyor.createRobot();
+//        Robot terminator2 = t1000Conveyor.createRobot();
+//        Robot terminator3 = t1000Conveyor.createRobot();
+//
+//        System.out.println("Terminator1 " + terminator1);
+//        System.out.println("Terminator2 " + terminator2);
+//        System.out.println("Terminator3 " + terminator3);
 
-        Robot terminator1 = t1000Conveyor.createRobot();
-        Robot terminator2 = t1000Conveyor.createRobot();
-        Robot terminator3 = t1000Conveyor.createRobot();
-
-        System.out.println("Terminator1 " + terminator1);
-        System.out.println("Terminator2 " + terminator2);
-        System.out.println("Terminator3 " + terminator3);
+        T1000Pool t1000Pool = (T1000Pool) context.getBean("t1000Pool");
+        t1000Pool.action();
     }
 }

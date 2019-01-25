@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <import resource="ModelT1000Context.xml"/>
+
+    <bean class="by.home.main.MyBeanPostProcessor"/>
+
+    <bean id="t1000Conveyor" class="by.home.impls.conveyor.T1000Conveyor">
+        <lookup-method name="createRobot" bean="t1000"/>
+    </bean>
+
+    <bean id="t1000Pool" class="by.home.impls.pool.T1000Pool">
+        <property name="robotCollection">
+            <list>
+                <ref bean="t1000"/>
+                <bean class="by.home.impls.robot.ModelT1000"
+                      parent="baseModel">
+
+                    <constructor-arg value="gold"/>
+                    <constructor-arg value="2020"/>
+                    <constructor-arg value="false"/>
+
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+</beans>

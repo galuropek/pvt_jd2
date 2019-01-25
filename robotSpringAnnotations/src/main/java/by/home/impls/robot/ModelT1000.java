@@ -16,9 +16,9 @@ public class ModelT1000 extends BaseModel implements InitializingBean, Disposabl
         super();
     }
 
-    public ModelT1000(Hand hand, Leg leg, Head head) {
-        super(hand, leg, head);
-    }
+//    public ModelT1000(Hand hand, Leg leg, Head head) {
+//        super(hand, leg, head);
+//    }
 
     public ModelT1000(String color, int year, boolean soundEnabled) {
         this.color = color;
@@ -26,12 +26,12 @@ public class ModelT1000 extends BaseModel implements InitializingBean, Disposabl
         this.soundEnabled = soundEnabled;
     }
 
-    public ModelT1000(Hand hand, Leg leg, Head head, String color, int year, boolean soundEnabled) {
-        super(hand, leg, head);
-        this.color = color;
-        this.year = year;
-        this.soundEnabled = soundEnabled;
-    }
+//    public ModelT1000(Hand hand, Leg leg, Head head, String color, int year, boolean soundEnabled) {
+//        super(hand, leg, head);
+//        this.color = color;
+//        this.year = year;
+//        this.soundEnabled = soundEnabled;
+//    }
 
     public String getColor() {
         return color;

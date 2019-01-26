@@ -12,8 +12,13 @@ public class Start {
         ApplicationContext context =
                 new ClassPathXmlApplicationContext("ApplicationContext.xml");
 
-        ModelT1000 t1000 = (ModelT1000) context.getBean("t1000");
-        t1000.action();
+//        ModelT1000 t1000 = (ModelT1000) context.getBean("t1000");
+//        t1000.action();
+
+        ModelT1000 model1 = (ModelT1000) context.getBean("model1");
+        ModelT1000 model2 = (ModelT1000) context.getBean("model2");
+        model1.action();
+        model2.action();
 
     }
 }

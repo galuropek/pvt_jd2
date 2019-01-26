@@ -5,7 +5,14 @@ import by.home.interfaces.Head;
 import by.home.interfaces.Leg;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
+@Component
+//@Qualifier(value = "model1")
 public class ModelT1000 extends BaseModel implements InitializingBean, DisposableBean {
 
     private String color;
@@ -14,6 +21,18 @@ public class ModelT1000 extends BaseModel implements InitializingBean, Disposabl
 
     public ModelT1000() {
         super();
+    }
+
+    @Bean
+    @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+    public ModelT1000 model1() {
+        return new ModelT1000();
+    }
+
+    @Bean
+    @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+    public ModelT1000 model2(){
+        return new ModelT1000("Grey", 2021, true);
     }
 
 //    public ModelT1000(Hand hand, Leg leg, Head head) {

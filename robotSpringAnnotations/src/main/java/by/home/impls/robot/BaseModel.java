@@ -6,20 +6,19 @@ import by.home.interfaces.Leg;
 import by.home.interfaces.Robot;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Required;
 
 public abstract class BaseModel implements Robot {
 
     @Autowired
-    @Qualifier("sonyHand")
+//    @Qualifier("sonyHand")
     private Hand hand;
 
     @Autowired
-    @Qualifier("sonyLeg")
+//    @Qualifier("sonyLeg")
     private Leg leg;
 
     @Autowired
-    @Qualifier("sonyHead")
+//    @Qualifier("sonyHead")
     private Head head;
 
     public BaseModel() {

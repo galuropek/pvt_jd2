@@ -41,7 +41,7 @@ public class AlarmDaoImpl extends BaseDaoImpl {
         return openSession().find(tClass, id);
     }
 
-    public List get(Serializable id, String fields) {
+    public Object get(Serializable id, String fields) {
         log.info("Call get()");
         return openSession().createQuery("select " + fields.trim() + " from Alarm where id=" + id).list();
     }

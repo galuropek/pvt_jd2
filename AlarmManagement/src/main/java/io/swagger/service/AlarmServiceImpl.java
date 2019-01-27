@@ -67,8 +67,8 @@ public class AlarmServiceImpl extends BaseServiceImpl {
     }
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-    public List<Alarm> retrieve(Serializable id, String fields) {
-        List<Alarm> alarm = alarmDao.get(id, fields);
+    public Object retrieve(Serializable id, String fields) {
+        Object alarm = alarmDao.get(id, fields);
         log.info("delete: " + alarm);
         return alarm;
     }

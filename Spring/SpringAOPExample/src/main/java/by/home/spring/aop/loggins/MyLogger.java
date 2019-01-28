@@ -1,5 +1,8 @@
 package by.home.spring.aop.loggins;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class MyLogger {
 
     public void printValue(Object obj) {

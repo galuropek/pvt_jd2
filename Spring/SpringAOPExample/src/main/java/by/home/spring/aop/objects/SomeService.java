@@ -1,5 +1,8 @@
 package by.home.spring.aop.objects;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class SomeService {
 
     public int getValue() {

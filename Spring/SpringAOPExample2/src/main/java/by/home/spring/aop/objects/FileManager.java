@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+@Component
 public class FileManager {
 
     public Set<String> getExtensionList(String folder) {

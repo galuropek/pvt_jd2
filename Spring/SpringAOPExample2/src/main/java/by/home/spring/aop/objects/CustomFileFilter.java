@@ -1,8 +1,11 @@
 package by.home.spring.aop.objects;
 
+import org.springframework.stereotype.Component;
+
 import java.io.File;
 import java.io.FilenameFilter;
 
+@Component
 public class CustomFileFilter implements FilenameFilter {
 
     private String extension;

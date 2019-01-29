@@ -1,7 +1,9 @@
 package by.home.spring.aop.logging;
 
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.springframework.stereotype.Component;
 
+@Component
 public class MyLogger {
 
     public Object watchTime(ProceedingJoinPoint joinPoint) {

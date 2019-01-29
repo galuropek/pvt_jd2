@@ -3,6 +3,7 @@ package by.home.spring.aop.objects;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -24,5 +25,18 @@ public class FileManager {
             }
         }
         return extList;
+    }
+
+    public Map<String, Integer> getExtensionCount(String folder) {
+
+        File dir = new File(folder);
+
+        Map<String, Integer> map = new HashMap<>();
+
+        for (String ext : getExtensionList(folder)) {
+            FilenameFilter filter = new CustomFileFilter(ext);
+            map.put(ext, dir.listFiles(filter).length);
+        }
+        return map;
     }
 }

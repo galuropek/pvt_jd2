@@ -66,18 +66,22 @@ public class MP3DaoImpl implements MP3Dao {
     }
 
     //in processing...
-    public MP3 getMP3byId(int id) {
+    public MP3 getMP3ById(int id) {
         String sql = "select * from mp3 where id=" + id;
+        System.out.println("getMP3ListById():\n");
         return jdbcTemplate.queryForObject(sql, new MP3RowMapper());
     }
 
     public List<MP3> getMP3ListByName(String name) {
-        String sql = "select * from mp3 where upper(name) like '" + name.toUpperCase() + "'";
+        String sql = "select * from mp3 where upper(name) like '%" + name.toUpperCase() + "%'";
+        System.out.println("getMP3ListByName():\n");
         return jdbcTemplate.query(sql, new MP3RowMapper());
     }
 
     public List<MP3> getMp3ListByAuthor(String author) {
-        return null;
+        String sql = "select * from mp3 where upper(author) like '%" + author.toUpperCase() + "%'";
+        System.out.println("getMp3ListByAuthor():\n");
+        return jdbcTemplate.query(sql, new MP3RowMapper());
     }
 
     private static final class MP3RowMapper implements RowMapper<MP3> {

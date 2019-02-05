@@ -12,7 +12,7 @@ public interface MP3Dao {
 
     void delete(MP3 mp3);
 
-    MP3 getMP3byId(int id);
+    MP3 getMP3ById(int id);
 
     List<MP3> getMP3ListByName(String name);
 

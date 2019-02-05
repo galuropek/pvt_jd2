@@ -2,9 +2,19 @@ package by.home.springsqlitedb.model;
 
 public class MP3 {
 
+    private Integer id;
+
     private String name;
 
     private String author;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -25,7 +35,8 @@ public class MP3 {
     @Override
     public String toString() {
         return "MP3{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", author='" + author + '\'' +
                 '}';
     }

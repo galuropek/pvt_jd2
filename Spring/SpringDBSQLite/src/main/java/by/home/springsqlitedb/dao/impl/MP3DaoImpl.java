@@ -84,6 +84,11 @@ public class MP3DaoImpl implements MP3Dao {
         return jdbcTemplate.query(sql, new MP3RowMapper());
     }
 
+    public int getCount() {
+        String sql = "select count(*) from mp3";
+        return jdbcTemplate.queryForObject(sql, Integer.class);
+    }
+
     private static final class MP3RowMapper implements RowMapper<MP3> {
 
         public MP3 mapRow(ResultSet resultSet, int i) throws SQLException {

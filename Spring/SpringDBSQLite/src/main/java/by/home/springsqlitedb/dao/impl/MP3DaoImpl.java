@@ -72,7 +72,8 @@ public class MP3DaoImpl implements MP3Dao {
     }
 
     public List<MP3> getMP3ListByName(String name) {
-        return null;
+        String sql = "select * from mp3 where upper(name) like '" + name.toUpperCase() + "'";
+        return jdbcTemplate.query(sql, new MP3RowMapper());
     }
 
     public List<MP3> getMp3ListByAuthor(String author) {

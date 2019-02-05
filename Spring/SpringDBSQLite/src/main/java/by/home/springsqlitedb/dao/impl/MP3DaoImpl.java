@@ -28,12 +28,16 @@ public class MP3DaoImpl implements MP3Dao {
     public void delete(MP3 mp3) {
         if (mp3.getId() != null) {
             deleteById(mp3);
+            System.out.println("deleteById():\n" + mp3);
         } else {
-            if (mp3.getName() != null && mp3.getAuthor() != null)
+            if (mp3.getName() != null && mp3.getAuthor() != null) {
                 deleteByFields(mp3);
-            else
+                System.out.println("deleteByFields():\n" + mp3);
+            } else {
                 System.out.println("Name and author must be entered!");
+            }
         }
+
     }
 
     private void deleteById(MP3 mp3) {
@@ -44,9 +48,9 @@ public class MP3DaoImpl implements MP3Dao {
     private void deleteByFields(MP3 mp3) {
         String sql =
                 "delete from mp3 where name='"
-                + mp3.getName()
-                + "' and author='"
-                + mp3.getAuthor() + "'";
+                        + mp3.getName()
+                        + "' and author='"
+                        + mp3.getAuthor() + "'";
         jdbcTemplate.execute(sql);
     }
 

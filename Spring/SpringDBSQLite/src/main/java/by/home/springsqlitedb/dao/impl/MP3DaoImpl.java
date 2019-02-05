@@ -4,9 +4,14 @@ import by.home.springsqlitedb.dao.MP3Dao;
 import by.home.springsqlitedb.model.MP3;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Types;
 import java.util.List;
 
 @Component("mp3Dao")
@@ -60,11 +65,10 @@ public class MP3DaoImpl implements MP3Dao {
         jdbcTemplate.execute(sql);
     }
 
-    //in process...
+    //in processing...
     public MP3 getMP3byId(int id) {
-//        String sql = "select * from mp3 where id=" + id;
-//        return jdbcTemplate.queryForObject(sql, aClass);
-        return null;
+        String sql = "select * from mp3 where id=" + id;
+        return jdbcTemplate.queryForObject(sql, new MP3RowMapper());
     }
 
     public List<MP3> getMP3ListByName(String name) {
@@ -73,5 +77,16 @@ public class MP3DaoImpl implements MP3Dao {
 
     public List<MP3> getMp3ListByAuthor(String author) {
         return null;
+    }
+
+    private static final class MP3RowMapper implements RowMapper<MP3> {
+
+        public MP3 mapRow(ResultSet resultSet, int i) throws SQLException {
+            MP3 mp3 = new MP3();
+            mp3.setId(resultSet.getInt("id"));
+            mp3.setName(resultSet.getString("name"));
+            mp3.setAuthor(resultSet.getString("author"));
+            return mp3;
+        }
     }
 }

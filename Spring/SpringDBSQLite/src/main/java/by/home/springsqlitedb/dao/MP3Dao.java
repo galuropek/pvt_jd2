@@ -8,6 +8,8 @@ public interface MP3Dao {
 
     void insert(MP3 mp3);
 
+    void insert(List<MP3> list);
+
     void delete(MP3 mp3);
 
     MP3 getMP3byId(int id);

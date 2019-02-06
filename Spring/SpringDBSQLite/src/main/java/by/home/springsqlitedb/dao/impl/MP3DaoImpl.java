@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
@@ -17,18 +18,21 @@ import java.util.List;
 @Component("mp3Dao")
 public class MP3DaoImpl implements MP3Dao {
 
-    private JdbcTemplate jdbcTemplate;
+    private NamedParameterJdbcTemplate jdbcTemplate;
 
     private Class<MP3> aClass = MP3.class;
 
     @Autowired
     public void setDataSource(DataSource dataSource) {
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
+        this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 
     public void insert(MP3 mp3) {
-        String sql = "insert into mp3 (name, author) VALUES (?, ?)";
-        jdbcTemplate.update(sql, mp3.getName(), mp3.getAuthor());
+        String sql = "insert into mp3 (name, author) VALUES (:name, :author)";
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("name", mp3.getName());
+        params.addValue("author", mp3.getAuthor());
+        jdbcTemplate.update(sql, params);
         System.out.println("insert(): \n" + mp3);
     }
 
@@ -54,7 +58,9 @@ public class MP3DaoImpl implements MP3Dao {
     }
 
     private void delete(Integer id) {
-        String sql = "delete from mp3 where id=?";
+        String sql = "delete from mp3 where id=:id";
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("")
         jdbcTemplate.update(sql, id);
     }
 

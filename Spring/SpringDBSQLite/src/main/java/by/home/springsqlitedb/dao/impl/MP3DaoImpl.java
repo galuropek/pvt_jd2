@@ -3,13 +3,16 @@ package by.home.springsqlitedb.dao.impl;
 import by.home.springsqlitedb.dao.MP3Dao;
 import by.home.springsqlitedb.model.MP3;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCallback;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
@@ -43,39 +46,24 @@ public class MP3DaoImpl implements MP3Dao {
     }
 
     public void delete(MP3 mp3) {
-        if (mp3.getId() != null) {
-            delete(mp3.getId());
-            System.out.println("deleteById():\n" + mp3);
-        } else {
-            if (mp3.getName() != null && mp3.getAuthor() != null) {
-                deleteByFields(mp3);
-                System.out.println("deleteByFields():\n" + mp3);
-            } else {
-                System.out.println("Name and author must be entered!");
-            }
-        }
-
+        delete(mp3.getId());
+        System.out.println("delete():\n" + mp3);
     }
 
     private void delete(Integer id) {
         String sql = "delete from mp3 where id=:id";
         MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("")
-        jdbcTemplate.update(sql, id);
+        params.addValue("id", id);
+        jdbcTemplate.update(sql, params);
     }
 
-    private void deleteByFields(MP3 mp3) {
-        String sql =
-                "delete from mp3 where name='" + mp3.getName()
-                        + "' and author='" + mp3.getAuthor() + "'";
-        jdbcTemplate.execute(sql);
-    }
 
-    //in processing...
     public MP3 getMP3ById(int id) {
         String sql = "select * from mp3 where id=" + id;
         System.out.println("getMP3ListById():\n");
-        return jdbcTemplate.queryForObject(sql, new MP3RowMapper());
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("id", id);
+        return jdbcTemplate.queryForObject(sql, params, new MP3RowMapper());
     }
 
     public List<MP3> getMP3ListByName(String name) {
@@ -92,7 +80,7 @@ public class MP3DaoImpl implements MP3Dao {
 
     public int getCount() {
         String sql = "select count(*) from mp3";
-        return jdbcTemplate.queryForObject(sql, Integer.class);
+        return jdbcTemplate.getJdbcOperations().queryForObject(sql, Integer.class);
     }
 
     private static final class MP3RowMapper implements RowMapper<MP3> {

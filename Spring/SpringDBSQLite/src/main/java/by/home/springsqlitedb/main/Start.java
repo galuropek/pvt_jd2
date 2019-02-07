@@ -24,5 +24,6 @@ public class Start {
         System.out.println(mp3Dao.getMp3ListByAuthor("linkin"));
         System.out.println("--------------------------------------------");
         System.out.println("Count mp3: " + mp3Dao.getCount());
+        System.out.println(mp3Dao.getAll());
     }
 }

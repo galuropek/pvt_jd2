@@ -12,6 +12,8 @@ public interface MP3Dao {
 
     void delete(MP3 mp3);
 
+    List<MP3> getAll();
+
     MP3 getMP3ById(int id);
 
     List<MP3> getMP3ListByName(String name);

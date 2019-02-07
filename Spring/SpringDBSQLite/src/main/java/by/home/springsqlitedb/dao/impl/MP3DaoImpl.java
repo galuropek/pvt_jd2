@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCallback;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -16,7 +17,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Component("mp3Dao")
 public class MP3DaoImpl implements MP3Dao {
@@ -29,6 +33,8 @@ public class MP3DaoImpl implements MP3Dao {
     public void setDataSource(DataSource dataSource) {
         this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
+
+
 
     public void insert(MP3 mp3) {
         String sql = "insert into mp3 (name, author) VALUES (:name, :author)";
@@ -48,6 +54,11 @@ public class MP3DaoImpl implements MP3Dao {
     public void delete(MP3 mp3) {
         delete(mp3.getId());
         System.out.println("delete():\n" + mp3);
+    }
+
+    public List<MP3> getAll() {
+        String sql = "select * from mp3";
+        return jdbcTemplate.query(sql, new MP3ResultSetExtractor());
     }
 
     private void delete(Integer id) {
@@ -86,11 +97,29 @@ public class MP3DaoImpl implements MP3Dao {
     private static final class MP3RowMapper implements RowMapper<MP3> {
 
         public MP3 mapRow(ResultSet resultSet, int i) throws SQLException {
-            MP3 mp3 = new MP3();
-            mp3.setId(resultSet.getInt("id"));
-            mp3.setName(resultSet.getString("name"));
-            mp3.setAuthor(resultSet.getString("author"));
+            MP3 mp3 = copyMP3Property(resultSet);
             return mp3;
         }
+    }
+
+    private static final class MP3ResultSetExtractor implements ResultSetExtractor<List<MP3>>{
+
+        public List<MP3> extractData(ResultSet resultSet) throws SQLException, DataAccessException {
+                List<MP3> list = new ArrayList<MP3>();
+                while (resultSet.next()){
+                    MP3 mp3 = copyMP3Property(resultSet);
+                    list.add(mp3);
+                }
+                return list;
+        }
+
+    }
+
+    private static MP3 copyMP3Property(ResultSet resultSet) throws SQLException {
+        MP3 mp3 = new MP3();
+        mp3.setId(resultSet.getInt("id"));
+        mp3.setName(resultSet.getString("name"));
+        mp3.setAuthor(resultSet.getString("author"));
+        return mp3;
     }
 }

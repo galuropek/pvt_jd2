@@ -70,7 +70,7 @@ public class MP3DaoImpl implements MP3Dao {
 
 
     public MP3 getMP3ById(int id) {
-        String sql = "select * from mp3 where id=" + id;
+        String sql = "select * from mp3 where id=:id";
         System.out.println("getMP3ListById():\n");
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("id", id);
